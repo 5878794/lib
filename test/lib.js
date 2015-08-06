@@ -413,4 +413,336 @@ var DEVICE = {};
 	DEVICE.css = css;
 	DEVICE.boxType = boxType;
 	DEVICE.boxVendors = boxVendors;
+})();/*
+ * Filename : 
+ * =====================================
+ * Created with WebStorm.
+ * User: bens
+ * Date: 15-8-5
+ * Time: 上午11:48
+ * Email:5878794@qq.com
+ * =====================================
+ * Desc:
+ */
+
+
+
+
+
+//判断是否是数字
+$.isNumber = function(val){
+	return typeof val === 'number';
+};
+//判断是否是字符串
+$.isString = function(val){
+	return typeof val === 'string';
+};
+//判断是否是布尔
+$.isBoolean = function(val){
+	return typeof val === 'boolean';
+};
+//判断是否是对象   jqmobi有
+$.isObject = function(str){
+	if(str === null || typeof str === 'undefined' || $.isArray(str))
+	{
+		return false;
+	}
+	return typeof str === 'object';
+};
+//判断是否是数组   jqmobi有
+$.isArray = function (arr){
+	return arr.constructor === Array;
+};
+//判断是函数    jqmobi有
+$.isFunction = function(fn){
+	return typeof fn === 'function'
+};
+//判断定义值没
+$.isUndefined = function(val){
+	return typeof val === 'undefined'
+};
+//判断是否是网址
+$.isUrl = function(url){
+	var strRegex = "[a-zA-z]+://[^s]*";
+	var re=new RegExp(strRegex);
+	return re.test(url);
+};
+
+
+$.getDom = function(obj){
+	var returnobj;
+
+	if(!obj){return returnobj;}
+
+	if($.isString(obj)){
+		returnobj = document.getElementById(obj);
+	}else if($.isObject(obj)){
+		if(obj.length == 1){
+			returnobj = obj.get(0);
+		}
+		if(obj.nodeType == 1){
+			returnobj = obj;
+		}
+	}
+
+	return returnobj;
+};
+$.getArray = function(str){
+	return ($.isArray(str))? str : [];
+};
+$.getFunction = function(fn){
+	return ($.isFunction(fn))? fn : function(){};
+};
+$.getBloom = function(str){
+	return ($.isBoolean(str))? str : false;
+};
+$.getObj = function(obj){
+	return ($.isObject(obj))? obj : {};
+};
+$.getNumber = function(str){
+	str = parseInt(str);
+	str = str || 0;
+	return str;
+};
+
+
+//设置css样式
+$.fn.css3 = function(css){
+	$(this).css(DEVICE.fixObjCss(css));
+};
+//返回style的css变换
+$.css3 = function(css){
+	return DEVICE.fixCss(css);
+};/*
+ * Filename : 
+ * =====================================
+ * Created with WebStorm.
+ * User: bens
+ * Date: 15-8-6
+ * Time: 上午10:11
+ * Email:5878794@qq.com
+ * =====================================
+ * Desc:
+ */
+
+
+
+//css动画
+$.fn.cssAnimate=(function(){
+
+	var cssanimagefn = {},
+		counter = (function(){
+			var a = 0;
+			return function(){
+				a += 1;
+				return a;
+			}
+		})(),
+		device = DEVICE,
+		clearfn = function(obj,keyname){
+			obj.removeEventListener(device.TRNEND_EV,cssanimagefn[keyname],false);
+			delete cssanimagefn[keyname];
+			delete obj.__bens_cssfn_id__;
+		};
+
+	return function(data,time,callback,is_3d){
+		var _this=$(this),
+			_that = _this.get(0),
+			_thatstyle = _that.style;
+
+		data = JSON.parse(DEVICE.fixObjCss(JSON.stringify(data)));
+		time = time || 1000;
+		callback = $.getFunction(callback);
+		is_3d = ($.isBoolean(is_3d))?  is_3d : false;
+
+		if(_that.__bens_cssfn_id__){
+			var temp_key = _that.__bens_cssfn_id__;
+			clearfn(_that,temp_key);
+		}
+
+		var thiskey = counter();
+		_that.__bens_cssfn_id__ = thiskey;
+
+
+		cssanimagefn[thiskey]=function(e){
+			var p_name = e.propertyName;
+			if(e.target == _that && data.hasOwnProperty(p_name)){
+
+				//_this.get(0).style["webkitTransition"]="all 0 ease";
+				_thatstyle[device._transitionProperty] = "";
+				_thatstyle[device._transitionDuration] = "";
+				_thatstyle[device._transitionTimingFunction] = "";
+				_thatstyle["webkitTransformStyle"]="";
+				_thatstyle["webkitBackfaceVisibility"]="";
+
+				callback();
+				clearfn(_that,thiskey);
+			}
+		};
+
+		_thatstyle[device._transitionProperty] = "all";
+		_thatstyle[device._transitionDuration] = time+"ms";
+		_thatstyle[device._transitionTimingFunction] = "ease";
+
+		_thatstyle["webkitTransformStyle"]="preserve-3d";   //webkit私有
+		if(!is_3d){
+			_thatstyle["webkitBackfaceVisibility"]="hidden";    //webkit私有
+		}else{
+			_thatstyle["webkitBackfaceVisibility"]="visible";    //webkit私有
+		}
+
+
+		setTimeout(function(){
+			_that.addEventListener(device.TRNEND_EV,cssanimagefn[thiskey],false);
+			_this.css(data);
+		},1);
+
+	}
+})();/*
+ * Filename : 
+ * =====================================
+ * Created with WebStorm.
+ * User: bens
+ * Date: 15-8-6
+ * Time: 上午10:12
+ * Email:5878794@qq.com
+ * =====================================
+ * Desc:
+ */
+
+
+
+//css3 class动画
+//$.fn.css3Animate(params)
+//@param obj     {"0%":"transform:scale(1);background:#000;","100%":"transform:scale(2);background:#fff;"}
+//@param time    时间毫秒:2000
+//@param type    动画方式:linear
+//@param infinite  动画是否循环: true/false
+//@param alternate 动画是否方向:  true/false
+//@param callback  动画完成回调:fn    循环时无效
+
+
+//停止循环的动画
+//$.fn.removeCss3Animate();
+
+
+$.fn.css3Animate = (function(){
+	var fns = {},
+		clearFn = function(obj,_id){
+			obj.get(0).removeEventListener(DEVICE.ANIEND_EV,fns[_id],false);
+			obj.removeCss3Animate();
+			delete fns[_id];
+		},
+		addFn = function(id,obj,callback){
+			var _id = "__temp_"+DEVICE.counter()+"__";
+			obj.get(0).addEventListener(DEVICE.ANIEND_EV,fns[_id] = function(e){
+				if(id == e.animationName){
+					callback.call(this);
+					clearFn(obj,_id);
+				}
+			},false);
+		};
+
+	return function(obj,time,type,infinite,alternate,callback){
+		var id = "__keyframes_"+DEVICE.counter()+"__";
+		time = parseInt(time) || 1000;
+		type = type || "linear";
+		infinite = $.getBloom(infinite);
+		//callback = $.getFunction(callback);
+		alternate = $.getBloom(alternate);
+
+		time = time+"ms";
+		infinite = (infinite)? "infinite" :"";
+		alternate = (alternate)? "alternate" : "";
+		var class_name = id+"class__";
+
+		if(!$.isObject(obj)){
+			throw("css3Animate 参数样式结构错误");
+		}
+
+
+
+		//生成style
+		var last_style = "";
+		var style = $("<style id='"+class_name+"'></style>");
+
+		var css = " animation: " + id + " " + time + " " + type + " " + infinite + " " + alternate +";";
+		css = $.css3(css);
+		css = "."+class_name+"{"+css+"} @keyframes "+id+"{";
+
+		for(var key in obj){
+			if(obj.hasOwnProperty(key)){
+				var this_val = $.css3(obj[key]);
+				css += key + " {" + this_val + "}";
+				last_style = this_val;
+			}
+		}
+
+		css +=  "}";
+
+
+		style.text(css);
+		$("head").append(style);
+
+
+
+		//生成最终的css
+		var last_css = {};
+		last_style = last_style.split(";");
+		for(var z=0,zl=last_style.length;z<zl;z++){
+			var this_style = last_style[z].split(":");
+			if(this_style.length == 2){
+				var _key = $.trim(this_style[0]),
+					_val = $.trim(this_style[1]);
+				last_css[_key] = _val;
+			}
+		}
+
+
+
+
+		$(this).each(function(){
+			if($(this).css("display") == "none" || $(this).css("visibility") == "hidden"){
+
+			}else{
+				$(this).addClass(class_name);
+				$(this).css(last_css);
+				$(this).get(0).__animate_css3_class__ = class_name;
+			}
+		});
+
+
+		if(!$.isFunction(callback)){return $(this);}
+		if(infinite){return $(this);}
+
+
+		$(this).each(function(){
+			if($(this).css("display") == "none" || $(this).css("visibility") == "hidden"){
+
+			}else{
+				addFn(id,$(this),callback);
+			}
+		});
+
+		return $(this);
+	}
 })();
+
+
+
+$.fn.removeCss3Animate = function(){
+	var temp = {};
+	$(this).each(function(){
+		var class_name = $(this).get(0).__animate_css3_class__;
+		temp[class_name] = true;
+		$(this).removeClass(class_name);
+	});
+
+	for(var key in temp){
+		if(temp.hasOwnProperty(key)){
+			if($("."+key).length == 0){
+				$("#"+key).remove();
+			}
+		}
+	}
+};

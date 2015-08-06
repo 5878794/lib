@@ -10,6 +10,42 @@
  * Desc:
  */
 
+var __a__;
+
+$(document).ready(function(){
+	var scripts = $("script");
+
+	scripts.each(function(){
+		var id = $(this).attr("id"),
+			message = $(this).attr("message");
+		if(id){
+			if(id == "device" || id == "jq_plus" ){
+
+			}else{
+				$("body").append('<label><input type="checkbox" value="'+id+'" name="box">'+id + '<span style="color:#999">('+message+')</span>'+'</label>');
+			}
+		}
+	});
+
+
+
+	var a = $("<a>下载</a>");
+	a.css({
+		"text-align":"center",
+		height:"30px",
+		"line-height":"30px",
+		width:"100%",
+		background:"#eee",
+		display:"block"
+	});
+	$("body").append(a);
+	__a__ = a;
+
+
+	$("label").click(function(){
+		download();
+	});
+});
 
 
 var getScriptText = function(id){
@@ -35,4 +71,34 @@ var getScriptText = function(id){
 
 	return text;
 
+};
+
+
+var download = function(){
+	var choose = $("input"),
+		select = [];
+	choose.each(function(){
+		if(this.checked){
+			select.push($(this).val());
+		}
+	});
+
+	var texts = [];
+	var lib = getScriptText("device"),
+		jq_plus = getScriptText("jq_plus");
+	texts.push(lib);
+	texts.push(jq_plus);
+
+	for(var i= 0,l=select.length;i<l;i++){
+		var text = getScriptText(select[i]);
+		texts.push(text);
+	}
+
+	texts = texts.join("");
+
+	var blob = new Blob([texts]);
+	var src= window.URL.createObjectURL(blob);
+
+	__a__.attr({href:src});
+	__a__.get(0).download = "lib.js";
 };
