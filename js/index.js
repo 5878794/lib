@@ -17,12 +17,14 @@ $(document).ready(function(){
 
 	scripts.each(function(){
 		var id = $(this).attr("id"),
-			message = $(this).attr("message");
+			message = $(this).attr("message"),
+			yl = $(this).attr("yl") || "";
+
 		if(id){
 			if(id == "device" || id == "jq_plus" ){
 
 			}else{
-				$("body").append('<label><input type="checkbox" value="'+id+'" name="box">'+id + '<span style="color:#999">('+message+')</span>'+'</label>');
+				$("body").append('<label><input id="__'+id+'__" yl="'+yl+'" type="checkbox" value="'+id+'" name="box">'+id + '<span style="color:#999">('+message+')</span>'+'</label><br/>');
 			}
 		}
 	});
@@ -79,6 +81,11 @@ var download = function(){
 		select = [];
 	choose.each(function(){
 		if(this.checked){
+			var yl = $(this).attr("yl") || "";
+			if(yl){
+				select.push(yl);
+				$("#__"+yl+"__").get(0).checked = true;
+			}
 			select.push($(this).val());
 		}
 	});
