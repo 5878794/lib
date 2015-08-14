@@ -19,7 +19,6 @@
 //new bannerAnimate({
 //	win: body,                      @param:jqobj    外层窗口
 //	body: $("#story_mains"),        @param:jqobj    滑动层
-//	direction: "x",                 @param:str      滑动方向
 //	time: 2000,                     @param:number   滑动间隔时间
 //	animateTime: win_width,         @param:number   滑动动画时间
 //	showPoint:false,                @param:number   是否显示下面的小点
