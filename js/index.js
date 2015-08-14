@@ -83,8 +83,12 @@ var download = function(){
 		if(this.checked){
 			var yl = $(this).attr("yl") || "";
 			if(yl){
-				select.push(yl);
-				$("#__"+yl+"__").get(0).checked = true;
+				yl = yl.split(",");
+				for(var z= 0,zl=yl.length;z<zl;z++){
+					var this_yl = yl[z];
+					select.push(this_yl);
+					$("#__"+this_yl+"__").get(0).checked = true;
+				}
 			}
 			select.push($(this).val());
 		}
