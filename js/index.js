@@ -24,7 +24,7 @@ $(document).ready(function(){
 			if(id == "device" || id == "jq_plus" ){
 
 			}else{
-				$("body").append('<label><input id="__'+id+'__" yl="'+yl+'" type="checkbox" value="'+id+'" name="box">'+id + '<span style="color:#999">('+message+')</span>'+'</label><br/>');
+				$("body").append('<label><input id="__'+id+'__" yl="'+yl+'" type="checkbox" value="'+id+'" name="box">'+id + '<span style="color:#999">('+message+')</span>'+'</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="__look__" _id="'+id+'" style="color:red;cursor:pointer;">查看</a><br/>');
 			}
 		}
 	});
@@ -46,6 +46,10 @@ $(document).ready(function(){
 
 	$("label").click(function(){
 		download();
+	});
+	$(".__look__").click(function(){
+		var id = $(this).attr("_id");
+		showFileInfo(id);
 	});
 });
 
@@ -112,4 +116,12 @@ var download = function(){
 
 	__a__.attr({href:src});
 	__a__.get(0).download = "lib.js";
+};
+
+
+var showFileInfo = function(id){
+	var text = getScriptText(id);
+	var blob = new Blob([text]);
+	var src= window.URL.createObjectURL(blob);
+	window.open(src);
 };

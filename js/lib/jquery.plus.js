@@ -94,6 +94,7 @@ $.getNumber = function(str){
 //设置css样式
 $.fn.css3 = function(css){
 	$(this).css(DEVICE.fixObjCss(css));
+	return $(this);
 };
 //返回style的css变换
 $.css3 = function(css){
