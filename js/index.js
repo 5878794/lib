@@ -82,7 +82,7 @@ var getScriptText = function(id){
 
 var download = function(){
 	var choose = $("input"),
-		select = [];
+		select = {};
 	choose.each(function(){
 		if(this.checked){
 			var yl = $(this).attr("yl") || "";
@@ -90,17 +90,29 @@ var download = function(){
 				yl = yl.split(",");
 				for(var z= 0,zl=yl.length;z<zl;z++){
 					var this_yl = yl[z];
-					select.push(this_yl);
+					select[this_yl] = true;
 					$("#__"+this_yl+"__").get(0).checked = true;
 				}
 			}
-			select.push($(this).val());
+			select[$(this).val()] = true;
 		}
 	});
+
+	var _select = [];
+	for(var key in select){
+		if(select.hasOwnProperty(key)){
+			_select.push(key);
+		}
+	}
+
+	select = _select;
+	var select_text = select.join("\r\n")+"\r\n";
+
 
 	var texts = [];
 	var lib = getScriptText("device"),
 		jq_plus = getScriptText("jq_plus");
+	texts.push(select_text);
 	texts.push(lib);
 	texts.push(jq_plus);
 
