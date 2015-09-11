@@ -18,7 +18,7 @@
 //@param time    时间毫秒:2000
 //@param type    动画方式:linear
 //@param infinite  动画是否循环: true/false
-//@param alternate 动画是否方向:  true/false
+//@param alternate 动画是否反向:  true/false
 //@param callback  动画完成回调:fn    循环时无效
 
 

@@ -107,6 +107,7 @@ var download = function(){
 
 	select = _select;
 	var select_text = select.join("\r\n")+"\r\n";
+	select_text = "/*\r\n"+select_text+"*/\r\n";
 
 
 	var texts = [];
