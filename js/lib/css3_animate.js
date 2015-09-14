@@ -132,6 +132,8 @@ $.fn.css3Animate = (function(){
 
 $.fn.removeCss3Animate = function(){
 	var temp = {};
+
+
 	$(this).each(function(){
 		var class_name = $(this).get(0).__animate_css3_class__;
 		temp[class_name] = true;
@@ -140,8 +142,9 @@ $.fn.removeCss3Animate = function(){
 
 	for(var key in temp){
 		if(temp.hasOwnProperty(key)){
-			if($("."+key).length == 0){
-				$("#"+key).remove();
+			var style = $("#"+key);
+			if(style.length != 0){
+				style.remove();
 			}
 		}
 	}
