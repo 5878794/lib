@@ -28,7 +28,7 @@
     <script src="js/lib/loading.js" id="loading" message="手机用loading动画"></script>
     <script src="js/lib/show_info.js" id="show_info" message="手机用显示提示信息"></script>
     <script src="js/lib/show_big_picture.js" yl="get_new_image_size,css3_animate,css_animate" id="show_big_picture" message="点击小图全屏显示大图,手机未测试"></script>
-
+    <script src="js/lib/playMovie.js" id="playMovie" message="插入视频播放插件 ie9+"></script>
 
 
     <style>
@@ -36,8 +36,24 @@
             display: inline-block;  padding: 10px 20px;
         }
     </style>
+    <script>
+        $(document).ready(function(){
+            new DEVICE.playMovie({
+                dom:$("#aa"),
+                src:["gg.mp4","fll.mp4"],
+                poster:"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=b704e371b5de9c82a630aacf0abcb438/d439b6003af33a87cc0c0752c05c10385343b510.jpg",
+                autoPlay:true,
+                loop:true,
+                controls:false,
+                preload:true
+            })
+        })
+
+    </script>
 </head>
 <body>
+
+<div id="aa" style="width: 300px;height: 200px;"></div>
 
 </body>
 </html>

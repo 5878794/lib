@@ -74,6 +74,8 @@ var DEVICE = {};
 	}
 	_ver = _ver.join(".");
 	DEVICE.ver = _ver;
+
+	DEVICE.isPhone = (DEVICE.isAndroid || DEVICE.isIpad || DEVICE.isIphone);
 })();
 
 
