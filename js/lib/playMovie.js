@@ -13,7 +13,7 @@
 
 //未测试苹果手机
 
-//new DEVICE.playMovie({
+//var a = new DEVICE.playMovie({
 //	dom:$("#aa"),   //需要插入的dom
 //	src:["gg.mp4","fll.mp4"],       //视频地址
 //	poster:"3b510.jpg",             //封面
@@ -22,6 +22,9 @@
 //	controls:false,                 //是否屏蔽控制条
 //	preload:true                    //是否预加载
 //})
+
+//a.stop();                         //停止播放
+//a.destory();                      //销毁
 
 
 DEVICE.playMovie = (function(){
@@ -42,6 +45,7 @@ DEVICE.playMovie = (function(){
 		this.nowPlay = -1;           //当前播放第几个视频
 		this.video = null;          //video对象
 		this.posterDom = null;      //封面dom对象
+		this.zz = null;             //遮罩层 防止视频点击出现控制条
 
 		this.isStart = false;
 
@@ -129,6 +133,7 @@ DEVICE.playMovie = (function(){
 				background:"rgba(0,0,0,0)",
 				display:display
 			});
+			this.zz = div;
 			this.dom.append(div);
 		},
 		addEvent:function(){
@@ -141,14 +146,14 @@ DEVICE.playMovie = (function(){
 
 
 			//已准备好
-			this.video.addEventListener("canplaythrough",function(){
+			this.video.addEventListener("canplaythrough",_this.fn1 = function(){
 				if(_this.autoPlay && !_this.isStart){
 					_this.play();
 				}
 			},false);
 
 			////播放结束
-			this.video.addEventListener("ended",function(){
+			this.video.addEventListener("ended",_this.fn2 = function(){
 				if(_this.loop){
 					_this.play();
 				}
@@ -169,6 +174,19 @@ DEVICE.playMovie = (function(){
 
 			this.posterDom.css({display:"none"});
 			_this.video.play();
+		},
+		stop:function(){
+			this.video.stop();
+		},
+		destroy:function(){
+			this.video.stop();
+			this.posterDom.unbind("click");
+			this.video.removeEventListener("canplaythrough",this.fn1,false);
+			this.video.removeEventListener("ended",this.fn2,false);
+
+			$(this.video).remove();
+			this.zz.remove();
+			this.posterDom.remove();
 		}
 
 	};

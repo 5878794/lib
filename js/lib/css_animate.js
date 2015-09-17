@@ -30,11 +30,12 @@ $.fn.cssAnimate=(function(){
 			delete obj.__bens_cssfn_id__;
 		};
 
-	return function(data,time,callback,is_3d){
+	return function(data,time,callback,is_3d,type){
 		var _this=$(this),
 			_that = _this.get(0),
 			_thatstyle = _that.style;
 
+		type = type || "ease";
 		data = JSON.parse(DEVICE.fixObjCss(JSON.stringify(data)));
 		time = time || 1000;
 		callback = $.getFunction(callback);
@@ -67,7 +68,7 @@ $.fn.cssAnimate=(function(){
 
 		_thatstyle[device._transitionProperty] = "all";
 		_thatstyle[device._transitionDuration] = time+"ms";
-		_thatstyle[device._transitionTimingFunction] = "ease";
+		_thatstyle[device._transitionTimingFunction] = type;
 
 		_thatstyle["webkitTransformStyle"]="preserve-3d";   //webkit私有
 		if(!is_3d){
@@ -83,4 +84,4 @@ $.fn.cssAnimate=(function(){
 		},1);
 
 	}
-})();
+})();/*
