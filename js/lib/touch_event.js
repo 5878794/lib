@@ -43,7 +43,7 @@
 
 			this.touchSTime=null;
 			this.touchJQ=400;
-			this.touchDelay=10;
+			//this.touchDelay=10;
 			this.longClickDelay=100000;
 			this.allowMove=10;
 			this.hasTouch=device.hasTouch;
@@ -148,9 +148,9 @@
 
 			//点击延时执行
 			var _this=this;
-			this.clickTimeFn=setTimeout(function(){
+			//this.clickTimeFn=setTimeout(function(){
 				_this.touchStartHandlerGo();
-			},this.touchDelay);
+			//},this.touchDelay);
 		},
 		//点击后延迟执行
 		touchStartHandlerGo:function(){
