@@ -201,6 +201,14 @@ var DEVICE = {};
 				window.msCancelRequestAnimationFrame ||
 				clearTimeout;
 		})(),
+		checkDomHasPosition = function(dom){
+			var position = dom.css("positon");
+			return (
+				position == "fixed" ||
+				position == "absolute" ||
+				position == "relative"
+			)
+		},
 		counter = (function () {
 			var a = 0;
 			return function () {
@@ -415,4 +423,6 @@ var DEVICE = {};
 	DEVICE.css = css;
 	DEVICE.boxType = boxType;
 	DEVICE.boxVendors = boxVendors;
+
+	DEVICE.checkDomHasPosition = checkDomHasPosition;
 })();

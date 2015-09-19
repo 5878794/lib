@@ -84,4 +84,4 @@ $.fn.cssAnimate=(function(){
 		},1);
 
 	}
-})();/*
+})();
