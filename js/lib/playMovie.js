@@ -140,6 +140,7 @@ DEVICE.playMovie = (function(){
 			var _this = this;
 
 
+			//封面点击播放
 			this.posterDom.click(function(){
 				_this.play();
 			});
