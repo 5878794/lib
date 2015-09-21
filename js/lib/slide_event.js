@@ -210,7 +210,7 @@
 			}else{
 				touch=e;
 			}
-			this.points.push({x:touch.pageX,y:touch.pageY});
+			this.points.push({x:touch.screenX,y:touch.screenY});
 		}
 	};
 
