@@ -19,7 +19,8 @@
 
 
 //震动api h5  目前只支持android 4.4+
-DEVICE.shock = {
+if(!DEVICE.API){DEVICE.API={}}
+DEVICE.API.shock = {
 	canUse:function(){
 		return  "vibrate" in navigator;
 	},

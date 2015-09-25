@@ -11,6 +11,7 @@
     <script src="js/lib/device.js" id="device"></script>
     <script src="js/lib/jquery.plus.js" id="jq_plus"></script>
 
+    <!--函数类-->
     <script src="js/lib/css_animate.js" id="css_animate" message="css动画函数"></script>
     <script src="js/lib/css3_animate.js" id="css3_animate" message="class动画函数"></script>
     <script src="js/lib/get_param_from_url.js" id="get_param_from_url" message="获取地址栏参数函数"></script>
@@ -22,9 +23,11 @@
     <script src="js/lib/jquery_mousewheel.js" id="jquery_mousewheel" message="jquery鼠标滚动插件"></script>
     <script src="js/lib/scroll_animate.js" yl="jquery_mousewheel" id="scroll_animate" message="屏蔽系统滚动条,使用模拟的滚动条,依赖jquery_mousewheel)"></script>
 
+    <!--事件类-->
     <script src="js/lib/touch_event.js" id="touch_event" message="$$点击事件"></script>
     <script src="js/lib/slide_event.js" id="slide_event" message="$$$滑动事件"></script>
 
+    <!--ui类-->
     <script src="js/lib/image_scroll.js" id="image_scroll" message="dom中图片背景跟随滚动条滚动滚动"></script>
     <script src="js/lib/banner_scroll.js" id="banner_scroll" yl="touch_event" message="banner横向滚动"></script>
     <script src="js/lib/loading.js" id="loading" message="手机用loading动画"></script>
@@ -33,9 +36,9 @@
     <script src="js/lib/playMovie.js" id="playMovie" message="插入视频播放插件 ie9+"></script>
     <script src="js/lib/btn_click_effect.js" id="btn_click_effect" message="按钮点击特效 圆弧2边扩散"></script>
 
-
+    <!--h5 接口类-->
     <script src="js/lib/h5_api_shock.js" id="shock" message="android手机震动api"></script>
-
+    <script src="js/lib/h5_api_fullscreen.js" id="fullscreen" message="全屏api,必须在点击事件中触发"></script>
 
     <style>
         label{
@@ -47,7 +50,12 @@
 <body>
 
 <script>
-
+$(document).ready(function(){
+    $("body").click(function(){
+        var a = $("body");
+        DEVICE.API.fullScreen();
+    })
+})
 
 </script>
 

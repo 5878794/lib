@@ -150,7 +150,19 @@ var DEVICE = {};
 		_transitionTimingFunction = prefixStyle('transitionTimingFunction'),
 		_transitionDelay = prefixStyle('transitionDelay'),
 
+		FULLSCREEN_EV = (function(){
+			if (vendor === false) return "fullscreenchange";
 
+			var fullscreenchange = {
+				'': 'fullscreenchange',
+				'webkit': 'webkitfullscreenchange',
+				'Moz': 'mozfullscreenchange',
+				'O': 'ofullscreenchange',
+				'ms': 'msfullscreenchange'
+			};
+
+			return fullscreenchange[vendor];
+		})(),
 		RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 		START_EV = webkitTouch ? 'touchstart' : windowTouch ? 'MSPointerDown' : 'mousedown',
 		MOVE_EV = webkitTouch ? 'touchmove' : windowTouch ? 'MSPointerMove' : 'mousemove',
@@ -408,6 +420,7 @@ var DEVICE = {};
 	DEVICE.CANCEL_EV = CANCEL_EV;      //结束
 	DEVICE.TRNEND_EV = TRNEND_EV;       //变形结束 webkitTransitionEnd
 	DEVICE.ANIEND_EV = ANIEND_EV;       //webkitAnimationEnd
+	DEVICE.FULLSCREEN_EV = FULLSCREEN_EV;  //全屏事件监听
 
 
 	DEVICE.nextFrame = nextFrame;
