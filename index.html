@@ -19,10 +19,12 @@
     <script src="js/lib/time_stamp.js" id="time_stamp" message="日期时间戳互转"></script>
     <script src="js/lib/local_data.js" id="local_data" message="本地缓存"></script>
     <script src="js/lib/parse_param.js" id="parse_param" message="将json对象转换为地址栏参数形式"></script>
-    <script src="js/lib/touch_event.js" id="touch_event" message="$$点击事件"></script>
-    <script src="js/lib/slide_event.js" id="slide_event" message="$$$滑动事件"></script>
     <script src="js/lib/jquery_mousewheel.js" id="jquery_mousewheel" message="jquery鼠标滚动插件"></script>
     <script src="js/lib/scroll_animate.js" yl="jquery_mousewheel" id="scroll_animate" message="屏蔽系统滚动条,使用模拟的滚动条,依赖jquery_mousewheel)"></script>
+
+    <script src="js/lib/touch_event.js" id="touch_event" message="$$点击事件"></script>
+    <script src="js/lib/slide_event.js" id="slide_event" message="$$$滑动事件"></script>
+
     <script src="js/lib/image_scroll.js" id="image_scroll" message="dom中图片背景跟随滚动条滚动滚动"></script>
     <script src="js/lib/banner_scroll.js" id="banner_scroll" yl="touch_event" message="banner横向滚动"></script>
     <script src="js/lib/loading.js" id="loading" message="手机用loading动画"></script>
@@ -31,30 +33,26 @@
     <script src="js/lib/playMovie.js" id="playMovie" message="插入视频播放插件 ie9+"></script>
     <script src="js/lib/btn_click_effect.js" id="btn_click_effect" message="按钮点击特效 圆弧2边扩散"></script>
 
+
+    <script src="js/lib/h5_api_shock.js" id="shock" message="android手机震动api"></script>
+
+
     <style>
         label{
             display: inline-block;  padding: 10px 20px;
         }
     </style>
-    <script>
-        $(document).ready(function(){
-            new DEVICE.BtnTouchEffect({
-                dom:$("#aa"),
-                bgColor:"red",
-                time:1500
-            })
-            new DEVICE.BtnTouchEffect({
-                dom:$("#bb"),
-                bgColor:"#000",
-                time:1500
-            })
-        })
-    </script>
+
 </head>
 <body>
 
-<div id="aa" style="cursor:pointer;width:200px; height: 30px; line-height: 30px; text-align: center; background: seagreen;">test</div>
-<button id="bb" style="cursor:pointer;width: 200px; height: 30px; line-height: 30px; text-align: center; background: red; border: none;">test</button>
+<script>
+
+
+</script>
+
+
+
 
 </body>
 </html>
