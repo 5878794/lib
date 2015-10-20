@@ -11,7 +11,6 @@
  */
 
 
-
 //banner横向滚动动画,依赖$$点击事件
 
 
@@ -23,7 +22,9 @@
 //	animateTime: win_width,         @param:number   滑动动画时间
 //	showPoint:false,                @param:number   是否显示下面的小点
 //	leftBtn:$("#story_right_btn"),  @param:jqobj    左滑动按钮
-//	rightBtn:$("#story_left_btn")   @param:jqobj    右滑动按钮
+//	rightBtn:$("#story_left_btn"),  @param:jqobj    右滑动按钮
+//  changeStartFn:function(page){}, @param:fn       滑动开始时执行函数，传递当前要滑动到的页面number
+//  changeEndFn:function(page){}    @param:fn       滑动结束时执行函数，传递当前要滑动到的页面number
 //});
 
 
@@ -35,7 +36,6 @@ var bannerAnimate = (function () {
 		this.win = data.win;            //包裹层
 		this.body = data.body;          //移动层
 		this.imgLength = this.body.find("a").length;
-		this.direction = data.direction || "x"; //移动方向  x/y
 		this.time = data.time || 5000;      //动画间隔时间
 		this.animateTime = data.animateTime || 1000;    //动画时间
 		this.showPoint = $.isBoolean(data.showPoint)? data.showPoint : true;
@@ -43,6 +43,8 @@ var bannerAnimate = (function () {
 		this.rightBtn = data.rightBtn;
 		this.pointBg = "#ccc";
 		this.pointSelectBg = "#000";
+		this.changeStartFn = data.changeStartFn || function(){};
+		this.changeEndFn = data.changeEndFn || function(){};
 
 		this.winWidth = parseInt(this.win.width());
 		this.winHeight = parseInt(this.win.height());
@@ -89,28 +91,17 @@ var bannerAnimate = (function () {
 				"position": "relative"
 			});
 
-			if (this.direction == "x") {
-				this.body.find("a").css({
-					float: "left",
-					display: "block"
-				})
-			}
+			this.body.find("a").css({
+				float: "left",
+				display: "block"
+			});
 
 			this.body.find("a").each(function () {
-				var img = $(this).find("img"),
-					img_src = img.attr("src"),
-					color = $(this).attr("color") || "transparent";
+				var color = $(this).attr("color") || "transparent";
 
-				img.remove();
 				$(this).css({
-					"background-image": "url('" + img_src + "')",
-					"background-repeat": "no-repeat",
-					"background-position": "center center",
 					"background-color": color
 				});
-				$(this).css(DEVICE.fixObjCss({
-					"background-size":"100% 100%"
-				}))
 			});
 
 
@@ -129,7 +120,8 @@ var bannerAnimate = (function () {
 				bottom: "40px",
 				left: "50%",
 				"margin-left": -width / 2 + "px",
-				display:display
+				display:display,
+				"z-index":9999
 			});
 
 
@@ -164,29 +156,17 @@ var bannerAnimate = (function () {
 			this.winWidth = parseInt(this.win.width());
 			this.winHeight = parseInt(this.win.height());
 
-			var width = (this.direction == "x") ? this.winWidth * this.imgLength : this.winWidth,
-				height = (this.direction == "x") ? this.winHeight : this.winHeight * this.imgLength;
+			var width = this.winWidth * this.imgLength;
 
+			this.body.css({
+				width: width + "px",
+				height: "100%"
+			});
+			this.body.find("a").css({
+				width: this.winWidth + "px",
+				height: "100%"
+			})
 
-			if(this.direction == "x"){
-				this.body.css({
-					width: width + "px",
-					height: "100%"
-				});
-				this.body.find("a").css({
-					width: this.winWidth + "px",
-					height: "100%"
-				})
-			}else{
-				this.body.css({
-					width: "100%",
-					height: height + "px"
-				});
-				this.body.find("a").css({
-					width: "100%",
-					height: this.winHeight + "px"
-				})
-			}
 
 
 
@@ -207,7 +187,9 @@ var bannerAnimate = (function () {
 					_this.page++;
 					_this.animate();
 				}, _this.time);
+
 				_this.animate();
+
 			};
 
 
@@ -290,21 +272,20 @@ var bannerAnimate = (function () {
 		//动画
 		animate: function () {
 			this.page = (this.page > this.maxPage) ? 0 : this.page;
-			this.page = (this.page < 0)? 0 : this.page;
+			this.page = (this.page < 0)? this.maxPage : this.page;
 
 			this.points.css({ background: this.pointBg });
 			this.points.eq(this.page).css({ background: this.pointSelectBg,"border-color":"#fff"  });
 
-			this.body.stop(true);
-			if (this.direction == "x") {
-				this.body.animate({
-					left: -this.page * this.winWidth + "px"
-				}, this.animateTime)
-			} else {
-				this.body.animate({
-					top: -this.page * this.winHeight + "px"
-				}, this.animateTime / 2)
-			}
+			this.body.stop(true,true);
+			this.changeStartFn(this.page);
+			var _this = this;
+			this.body.animate({
+				left: -this.page * this.winWidth + "px"
+			}, this.animateTime,function(){
+				_this.changeEndFn(_this.page);
+			});
+
 		},
 		startEvent: function (e) {
 			this.touchPoints = [];
