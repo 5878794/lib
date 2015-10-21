@@ -277,10 +277,13 @@ var bannerAnimate = (function () {
 			this.points.css({ background: this.pointBg });
 			this.points.eq(this.page).css({ background: this.pointSelectBg,"border-color":"#fff"  });
 
-			this.body.stop(true,true);
+			if(!device.hasTouch){
+				this.body.stop(true,true);
+			}
+
 			this.changeStartFn(this.page);
 			var _this = this;
-			this.body.animate({
+			this.body.cssAnimate({
 				left: -this.page * this.winWidth + "px"
 			}, this.animateTime,function(){
 				_this.changeEndFn(_this.page);
