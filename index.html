@@ -35,6 +35,8 @@
     <script src="js/lib/show_big_picture.js" yl="get_new_image_size,css3_animate,css_animate" id="show_big_picture" message="点击小图全屏显示大图,手机未测试"></script>
     <script src="js/lib/playMovie.js" id="playMovie" message="插入视频播放插件 ie9+"></script>
     <script src="js/lib/btn_click_effect.js" id="btn_click_effect" message="按钮点击特效 圆弧2边扩散"></script>
+    <script src="js/lib/roundLoad.js" id="roundLoad" message="进度条画圆，只能画一次"></script>
+
 
     <!--h5 接口类-->
     <script src="js/lib/h5_api_shock.js" id="shock" message="android手机震动api"></script>
@@ -49,15 +51,6 @@
 </head>
 <body>
 
-<script>
-$(document).ready(function(){
-    $("body").click(function(){
-        var a = $("body");
-        DEVICE.API.fullScreen();
-    })
-})
-
-</script>
 
 
 

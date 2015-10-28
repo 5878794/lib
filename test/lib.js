@@ -294,6 +294,7 @@ var DEVICE = {};
 
 
 		animation = getCssName("animation"),
+		transformOrigin = getCssName("transform-origin"),
 		box_shadow = getCssName("box-shadow"),
 		backgroundSize = getCssName("background-size"),
 		transform = getCssName("transform"),
@@ -310,7 +311,7 @@ var DEVICE = {};
 		transition_duration = getCssName("transition-duration"),
 		transition_timing_function = getCssName("transition-timing-function");
 
-
+cconsole.log(transformOrigin)
 	var css = {
 			"box": box,
 			"justify-content": justify_content,
@@ -318,6 +319,7 @@ var DEVICE = {};
 			"background-size": backgroundSize,
 			"background-clip": background_clip,
 			"flex": flex,
+			"transform-origin":transformOrigin,
 			"flex-direction": flex_direction,
 			"row": flex_direction_row,
 			"column": flex_direction_column,
