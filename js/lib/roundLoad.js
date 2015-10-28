@@ -86,7 +86,7 @@ DEVICE.roundLoad.prototype = {
         bottom.css({
             width:this.r+"px",height:this.r/2+"px",
             left:"50%","margin-left":-this.r/2+"px",
-            top:"50%","margin-top":-(this.bodyHeight-this.r)/2+"px",
+            top:"50%","margin-top":-(this.bodyHeight-this.r)/2-1+"px",
             position:"absolute",
             overflow:"hidden"
         });
