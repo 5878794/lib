@@ -15,7 +15,7 @@
 
 
 
-//new bannerAnimate({
+//new DEVICE.bannerAnimate({
 //	win: body,                      @param:jqobj    外层窗口
 //	body: $("#story_mains"),        @param:jqobj    滑动层
 //	time: 2000,                     @param:number   滑动间隔时间
@@ -30,7 +30,7 @@
 
 
 
-var bannerAnimate = (function () {
+DEVICE.bannerAnimate = (function () {
 	var device = DEVICE;
 	var scrollBanner = function (data) {
 		this.win = data.win;            //包裹层

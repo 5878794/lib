@@ -246,10 +246,8 @@ var DEVICE = {};
 			return "";
 		})(),
 		getCssName = function (style) {
-			//return (style in dummyStyle) ? style :
-			//	(t_v + style in dummyStyle) ? t_v + style : style;
-
-			return (t_v + style in dummyStyle) ? t_v + style : style;
+			return (style in dummyStyle) ? style :
+				   (t_v + style in dummyStyle) ? t_v + style : style;
 		},
 	//判断盒子模型的版本 2009版 2011版  2013版
 		boxVendors = "",
