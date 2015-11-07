@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn">
 <head>
     <meta charset="UTF-8">
     <title>></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta content="email=no" name="format-detection" />
+    <meta content="telephone=no" name="format-detection" />
+
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/index.js"></script>
     <!--<script src="js/lib.js" id="lib"></script>-->
@@ -14,6 +19,7 @@
     <!--函数类-->
     <script src="js/lib/css_animate.js" id="css_animate" message="css动画函数"></script>
     <script src="js/lib/css3_animate.js" id="css3_animate" message="class动画函数"></script>
+    <script src="js/lib/h5animate.js" id="h5animate" message="h5 nextFrame 动画函数简单封装"></script>
     <script src="js/lib/get_param_from_url.js" id="get_param_from_url" message="获取地址栏参数函数"></script>
     <script src="js/lib/get_new_image_size.js" id="get_new_image_size" message="获取适合容器的图片大小"></script>
     <script src="js/lib/get_check_box_val.js" id="get_check_box_val" message="获取checkbox的选中值"></script>
@@ -32,6 +38,7 @@
     <!--ui类-->
     <script src="js/lib/image_scroll.js" id="image_scroll" message="dom中图片背景跟随滚动条滚动滚动"></script>
     <script src="js/lib/banner_scroll.js" id="banner_scroll" yl="touch_event" message="banner横向滚动"></script>
+    <script src="js/lib/banner_scroll1.js" id="banner_scroll1" message="不同效果的banner切换"></script>
     <script src="js/lib/loading.js" id="loading" message="手机用loading动画"></script>
     <script src="js/lib/show_info.js" id="show_info" message="手机用显示提示信息"></script>
     <script src="js/lib/show_big_picture.js" yl="get_new_image_size,css3_animate,css_animate" id="show_big_picture" message="点击小图全屏显示大图,手机未测试"></script>
@@ -43,17 +50,63 @@
     <!--h5 接口类-->
     <script src="js/lib/h5_api_shock.js" id="shock" message="android手机震动api"></script>
     <script src="js/lib/h5_api_fullscreen.js" id="fullscreen" message="全屏api,必须在点击事件中触发"></script>
-    <script src="js/lib/h5_api_history.js" id="history" message="不要选择，看文件注释直接使用"></script>
+    <script src="js/lib/h5_api_history.js" id="history" message="**不要选择，看文件注释直接使用"></script>
     <script src="js/lib/h5_api_notification.js" id="notification" message="桌面通知"></script>
+    <script src="js/lib/check_window_show_or_hide.js" id="check_window_show_or_hide" message="**不要选择，看文件注释直接使用"></script>
+
+
 
     <style>
         label{
             display: inline-block;  padding: 10px 20px;
         }
     </style>
+    <!--<script>-->
+        <!--$(document).ready(function(){-->
+<!--//            new DEVICE.bannerAnimate1({-->
+<!--//                dom:$("#banner"),-->
+<!--//                changeTime:2000-->
+<!--//            });-->
 
+
+            <!--var a = $("#aaa");-->
+             <!--b = new DEVICE.h5animate({-->
+                <!--time:5000,-->
+                <!--stepFn:function(pre){-->
+                    <!--var left = 30+ 40*pre;-->
+                    <!--a.css({left:left+"%"});-->
+                <!--},-->
+                 <!--endFn:function(){-->
+                     <!--b.replay();-->
+                 <!--}-->
+            <!--});-->
+
+            <!--var type = false;-->
+            <!--document.addEventListener("click",function(){-->
+                <!--if(!type){-->
+                    <!--b.play();-->
+                    <!--type = true;-->
+                <!--}else{-->
+                    <!--b.stop();-->
+                    <!--type = false;-->
+                <!--}-->
+            <!--},false)-->
+
+
+        <!--})-->
+    <!--</script>-->
 </head>
 <body>
+
+<!--<div id="banner" style="width: 100%; height: 400px;">-->
+    <!--<a href="#" style="background: url(001.jpg) no-repeat center center;background-size:cover;">-->
+    <!--</a>-->
+    <!--<a href="#" style="background: url(002.jpg) no-repeat center center;background-size:cover;"></a>-->
+    <!--<a href="#" style="background: url(003.jpg) no-repeat center center;background-size:cover;"></a>-->
+
+
+<!--</div>-->
+<!--<div id="aaa" style="z-index:999;position: absolute;width:100px; height: 100px; left:30%;top:10%;background: red"></div>-->
 
 
 
