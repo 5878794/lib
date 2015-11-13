@@ -43,6 +43,7 @@
     <script src="js/lib/show_info.js" id="show_info" message="手机用显示提示信息"></script>
     <script src="js/lib/show_big_picture.js" yl="get_new_image_size,css3_animate,css_animate" id="show_big_picture" message="点击小图全屏显示大图,手机未测试"></script>
     <script src="js/lib/playMovie.js" id="playMovie" message="插入视频播放插件 ie9+"></script>
+    <script src="js/lib/play_audio.js" id="playAudio" message="播放music插件"></script>
     <script src="js/lib/btn_click_effect.js" id="btn_click_effect" message="按钮点击特效 圆弧2边扩散"></script>
     <script src="js/lib/roundLoad.js" id="roundLoad" message="div+css画一个圆。主要用于loading，"></script>
 
@@ -56,45 +57,47 @@
 
 
 
+    <!-- TODO
+    camera
+    indexedDB/sqlite
+    messageing
+    Server-Sent Events   推送
+    Metadata API for Media Resources 1.0
+    Pointer Lock        隐藏鼠标
+    online offline 属性
+    -->
+
+
+
     <style>
         label{
             display: inline-block;  padding: 10px 20px;
         }
     </style>
-    <!--<script>-->
-        <!--$(document).ready(function(){-->
-<!--//            new DEVICE.bannerAnimate1({-->
-<!--//                dom:$("#banner"),-->
-<!--//                changeTime:2000-->
-<!--//            });-->
+    <script>
+        $(document).ready(function(){
+//            new DEVICE.bannerAnimate1({
+//                dom:$("#banner"),
+//                changeTime:2000
+//            });
 
+//            a=new DEVICE.audio({
+//                src:"bg1.aiff",
+//                ready:function(){
+//                    this.play({
+//                        loop:true
+////                        delay:10
+////                        start:12
+////                        continued:5
+//                    })
+//                },
+//                error:function(filename){
+//
+//                }
+//            });
 
-            <!--var a = $("#aaa");-->
-             <!--b = new DEVICE.h5animate({-->
-                <!--time:5000,-->
-                <!--stepFn:function(pre){-->
-                    <!--var left = 30+ 40*pre;-->
-                    <!--a.css({left:left+"%"});-->
-                <!--},-->
-                 <!--endFn:function(){-->
-                     <!--b.replay();-->
-                 <!--}-->
-            <!--});-->
-
-            <!--var type = false;-->
-            <!--document.addEventListener("click",function(){-->
-                <!--if(!type){-->
-                    <!--b.play();-->
-                    <!--type = true;-->
-                <!--}else{-->
-                    <!--b.stop();-->
-                    <!--type = false;-->
-                <!--}-->
-            <!--},false)-->
-
-
-        <!--})-->
-    <!--</script>-->
+        })
+    </script>
 </head>
 <body>
 
@@ -104,9 +107,9 @@
     <!--<a href="#" style="background: url(002.jpg) no-repeat center center;background-size:cover;"></a>-->
     <!--<a href="#" style="background: url(003.jpg) no-repeat center center;background-size:cover;"></a>-->
 
+    <!--<div id="aaa" style="z-index:999;position: absolute;width:100px; height: 100px; left:30%;top:10%;background: red"></div>-->
 
 <!--</div>-->
-<!--<div id="aaa" style="z-index:999;position: absolute;width:100px; height: 100px; left:30%;top:10%;background: red"></div>-->
 
 
 
