@@ -163,6 +163,21 @@ var DEVICE = {};
 
 			return fullscreenchange[vendor];
 		})(),
+		//鼠标锁定状态变化事件
+		LOCKPOINTER_EV = (function(){
+			if (vendor === false) return "pointerlockchange";
+
+			var pointerlockchange = {
+				'': 'pointerlockchange',
+				'webkit': 'webkitpointerlockchange',
+				'Moz': 'mozpointerlockchange',
+				'O': 'opointerlockchange',		//无
+				'ms': 'mspointerlockchange'		//无
+			};
+
+			return pointerlockchange[vendor];
+		})(),
+
 		RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 		START_EV = webkitTouch ? 'touchstart' : windowTouch ? 'MSPointerDown' : 'mousedown',
 		MOVE_EV = webkitTouch ? 'touchmove' : windowTouch ? 'MSPointerMove' : 'mousemove',
@@ -421,7 +436,7 @@ var DEVICE = {};
 	DEVICE.TRNEND_EV = TRNEND_EV;       //变形结束 webkitTransitionEnd
 	DEVICE.ANIEND_EV = ANIEND_EV;       //webkitAnimationEnd
 	DEVICE.FULLSCREEN_EV = FULLSCREEN_EV;  //全屏事件监听
-
+	DEVICE.LOCKPOINTER_EV = LOCKPOINTER_EV;	//锁定鼠标
 
 	DEVICE.nextFrame = nextFrame;
 	DEVICE.cancelFrame = cancelFrame;
