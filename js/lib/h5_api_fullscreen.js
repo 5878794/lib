@@ -12,7 +12,7 @@
 
 
 
-//全屏显示某个元素
+//全屏显示某个元素 必须用户点击
 //DEVICE.API.fullScreen(dom);
 //@param  dom:jqobj     默认document.documentElement及整个页面
 
