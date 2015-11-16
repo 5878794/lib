@@ -23,6 +23,9 @@
 //事件监听
 //事件名:DEVICE.FULLSCREEN_EV
 
+//获取当前全屏的元素,返回dom
+//DEVICE.API.getFullScreenDom();
+
 
 //css伪类
 //html:-moz-full-screen{};
@@ -60,5 +63,16 @@ DEVICE.API.exitFullScreen = function(){
 		document.msexitFullscreen();
 	}
 };
+
+
+DEVICE.API.getFullScreenDom = function(){
+	document.fullscreenElement = document.fullscreenElement ||
+		document.webkitFullscreenElement ||
+		document.mozFullscreenElement ||
+		document.mozFullScreenElement;
+
+	return document.fullscreenElement;
+};
+
 
 
