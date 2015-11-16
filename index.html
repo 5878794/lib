@@ -56,6 +56,9 @@
     <script src="js/lib/check_window_show_or_hide.js" id="check_window_show_or_hide" message="**不要选择，看文件注释直接使用"></script>
     <script src="js/lib/h5_api_online_offline.js" id="online" message="检测是否在线"></script>
     <script src="js/lib/h5_api_lockPointer.js" yl="fullscreen" id="lockPointer" message="锁定鼠标，必须在全屏模式下使用"></script>
+    <script src="js/lib/getUserMedia.js" id="getUserMedia" message="获取摄像头显示，并保存图片"></script>
+
+
 
     <!-- TODO
     camera
@@ -63,7 +66,6 @@
     messageing
     Server-Sent Events   推送
     Metadata API for Media Resources 1.0
-    Pointer Lock        隐藏鼠标
     gps
     陀螺旋仪
     -->
@@ -82,20 +84,6 @@
 //                changeTime:2000
 //            });
 
-//            a=new DEVICE.audio({
-//                src:"bg1.aiff",
-//                ready:function(){
-//                    this.play({
-//                        loop:true
-////                        delay:10
-////                        start:12
-////                        continued:5
-//                    })
-//                },
-//                error:function(filename){
-//
-//                }
-//            });
 
         })
     </script>
@@ -111,7 +99,6 @@
     <!--<div id="aaa" style="z-index:999;position: absolute;width:100px; height: 100px; left:30%;top:10%;background: red"></div>-->
 
 <!--</div>-->
-
 
 
 
