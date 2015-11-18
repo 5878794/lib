@@ -95,7 +95,8 @@
 //    name:"test_store",      //@param:str 要获取数据的表名
 //    index:"name",           //@param:str 要获取数据的表的索引名
 //    range:["11","3"],       //@param:array 索引值的范围（取字母头2位大于等于11，字母头1位小于等于3）
-//                                        //  索引前面的值必须小于后面的值,是按字符顺序大小计算 3大于11
+//                                        //  索引前面的值必须小于后面的值,是按字段的类型来比较
+//                                        //   数字类型的按照数字类型比较
 //    success:function(rs){       //@param:fn   事务成功回调
 //        console.log(rs);        //rs： array/json  返回查询到的数据
 //    },
@@ -333,7 +334,6 @@
 
             request.onsuccess = function(rs){
                 rs = rs.target.result;
-                console.log(rs);
                 //取所有数据
                 if(rs) {
                     backData.push(rs.value);
