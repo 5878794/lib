@@ -95,16 +95,6 @@ DEVICE.bannerAnimate = (function () {
 				float: "left",
 				display: "block"
 			});
-
-			this.body.find("a").each(function () {
-				var color = $(this).attr("color") || "transparent";
-
-				$(this).css({
-					"background-color": color
-				});
-			});
-
-
 		},
 		//添加指示的点点
 		addPoint: function () {
