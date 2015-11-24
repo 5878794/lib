@@ -23,7 +23,7 @@ DEVICE.API.prefetch = function(urls){
     urls = urls || [];
     for(var i= 0,l=urls.length;i<l;i++){
         var this_url = urls[i];
-        $("body").append("<link rel='prefetch' href='"+this_url+"' />");
+        $("head").append("<link rel='prefetch' href='"+this_url+"' />");
     }
 
 
