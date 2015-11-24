@@ -39,8 +39,8 @@ DEVICE.bannerAnimate = (function () {
 		this.time = data.time || 5000;      //动画间隔时间
 		this.animateTime = data.animateTime || 1000;    //动画时间
 		this.showPoint = $.isBoolean(data.showPoint)? data.showPoint : true;
-		this.leftBtn = data.leftBtn;
-		this.rightBtn = data.rightBtn;
+		this.leftBtn = data.rightBtn;
+		this.rightBtn = data.leftBtn;
 		this.pointBg = "#ccc";
 		this.pointSelectBg = "#000";
 		this.changeStartFn = data.changeStartFn || function(){};
@@ -54,6 +54,7 @@ DEVICE.bannerAnimate = (function () {
 
 		this.intervalFn = null;
 		this.points = [];
+		this.pointBody = null;
 
 		this.touchStartTime = 0;
 		this.touchPoints = [];
@@ -134,7 +135,7 @@ DEVICE.bannerAnimate = (function () {
 				div.append(this_item);
 			}
 			this.points = div.find("div");
-
+			this.pointBody = div;
 
 			this.win.append(div)
 		},
@@ -165,9 +166,9 @@ DEVICE.bannerAnimate = (function () {
 		//添加事件
 		addEvent: function () {
 			var _this = this;
-			$(window).resize(function () {
+			window.addEventListener("resize",_this.resizeFn = function(){
 				_this.setDiv();
-			});
+			},false);
 
 			var temp_fn = function () {
 				if (_this.imgLength <= 1) {
@@ -261,15 +262,14 @@ DEVICE.bannerAnimate = (function () {
 		},
 		//动画
 		animate: function () {
+			console.log(this.page);
 			this.page = (this.page > this.maxPage) ? 0 : this.page;
 			this.page = (this.page < 0)? this.maxPage : this.page;
 
 			this.points.css({ background: this.pointBg });
 			this.points.eq(this.page).css({ background: this.pointSelectBg,"border-color":"#fff"  });
 
-			if(!device.hasTouch){
-				this.body.stop(true,true);
-			}
+			this.body.get(0).style[device._transitionDuration] = "";
 
 			this.changeStartFn(this.page);
 			var _this = this;
@@ -350,6 +350,42 @@ DEVICE.bannerAnimate = (function () {
 		},
 		scrollBack: function () {
 			this.animate();
+		},
+		destroy:function(){
+
+
+
+
+
+			if(this.intervalFn){
+				clearInterval(this.intervalFn);
+			}
+
+
+			window.removeEventListener("resize",this.resizeFn,false);
+			if (!device.hasTouch){
+				this.win.unbind("hover");
+				this.points.unbind("mouseover");
+			}else{
+				this.win.get(0).removeEventListener(device.START_EV,this.startEventFn,false);
+				this.win.get(0).removeEventListener(device.MOVE_EV,this.moveEventFn,false);
+				this.win.get(0).removeEventListener(device.END_EV,this.endEventFn,false);
+			}
+
+			if(this.leftBtn){
+				$$(this.leftBtn).unbind(true);
+			}
+
+			if(this.rightBtn){
+				$$(this.rightBtn).unbind(true);
+			}
+
+			this.body.get(0).style[device._transitionDuration] = "";
+			this.body.css({left:0});
+
+
+
+			this.pointBody.remove();
 		}
 
 
