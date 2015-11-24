@@ -262,7 +262,6 @@ DEVICE.bannerAnimate = (function () {
 		},
 		//动画
 		animate: function () {
-			console.log(this.page);
 			this.page = (this.page > this.maxPage) ? 0 : this.page;
 			this.page = (this.page < 0)? this.maxPage : this.page;
 
