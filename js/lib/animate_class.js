@@ -13,7 +13,7 @@
 
 
 //css3 class动画
-//$.fn.css3Animate(params)
+//$.fn.classAnimate(params)
 //@param obj     {"0%":"transform:scale(1);background:#000;","100%":"transform:scale(2);background:#fff;"}
 //@param time    时间毫秒:2000
 //@param type    动画方式:linear
@@ -23,10 +23,10 @@
 
 
 //停止循环的动画
-//$.fn.removeCss3Animate();
+//$.fn.removeClassAnimate();
 
 
-$.fn.css3Animate = (function(){
+$.fn.classAnimate = (function(){
 	var fns = {},
 		clearFn = function(obj,_id){
 			obj.get(0).removeEventListener(DEVICE.ANIEND_EV,fns[_id],false);
@@ -130,7 +130,7 @@ $.fn.css3Animate = (function(){
 
 
 
-$.fn.removeCss3Animate = function(){
+$.fn.removeClassAnimate = function(){
 	var temp = {};
 
 
