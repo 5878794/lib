@@ -26,6 +26,9 @@
 //                                                设置该参数endFn将失效
 //})
 
+//a.play();
+//a.stop();
+
 
 
 DEVICE.jsAnimate = (function(){
