@@ -13,7 +13,7 @@
 
 
 //banner滚动效果，显示3张循环立体效果
-//依赖  touch_slide_event.js
+//依赖  touch_slide_event.js   animate_css.js
 
 //new DEVICE.productChange({
 //    body:$("div"),               //@param:jqobj   包裹容器
