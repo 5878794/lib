@@ -12,7 +12,7 @@
 
 
 
-//banner滚动效果，显示3张循环立体效果，微信显示有问题
+//banner滚动效果，显示3张循环立体效果
 //依赖  touch_slide_event.js
 
 //new DEVICE.productChange({
@@ -31,6 +31,9 @@ DEVICE.productChange = (function(){
         this.lists = opt.lists || [];
         this.perspective = opt.perspective || 200;
 
+        this.pointBg = "#fff";
+        this.pointSelectBg = "#666";
+
         this.itemWidth = parseInt(this.lists.width());
         this.itemHeight = parseInt(this.lists.height());
         this.bodyWidth = parseInt(this.body.width());
@@ -44,7 +47,7 @@ DEVICE.productChange = (function(){
             {
                 deg:deg*2,
                 z:-z*2,
-                x:-left*2
+                x:-left
             },
             {
                 deg:deg,
@@ -64,11 +67,10 @@ DEVICE.productChange = (function(){
             {
                 deg:-deg*2,
                 z:-z*2,
-                x:right*2
+                x:right
             }
 
         ];
-
 
         this.container = null;          //包裹层
         this.nowPage = 0;
@@ -78,6 +80,8 @@ DEVICE.productChange = (function(){
         this.leftDom = null;
         this.centerDom = null;
         this.rightDom = null;
+        this.points = null;
+        this.pointBody = null;
 
         this.animateFn = null;
 
@@ -89,7 +93,9 @@ DEVICE.productChange = (function(){
             this.createDiv();
             this.setCss();
             this.setListCss();
+            this.createDian();
             this.addEvent();
+
         },
         //创建包裹层
         createDiv:function(){
@@ -107,7 +113,7 @@ DEVICE.productChange = (function(){
         //设置主体css
         setCss:function(){
             this.body.css3({
-                perspective: "201px",
+                perspective: this.perspective+"px",
                 "perspective-origin":"50% 50%",
                 overflow:"hidden"
             });
@@ -127,7 +133,9 @@ DEVICE.productChange = (function(){
                 left:"50%",
                 top:"50%",
                 "margin-left":-this.itemWidth/2 + "px",
-                "margin-top":-this.itemHeight/2 + "px"
+                "margin-top":-this.itemHeight/2 + "px",
+                webkitBackfaceVisibility:"hidden",
+                "transform-style": "preserve-3d"
             });
 
             var _this = this;
@@ -150,6 +158,11 @@ DEVICE.productChange = (function(){
 
             new DEVICE.touchSlideEvent({
                 dom:this.body,
+                startFn:function(){
+                    _this.lists.css({
+                        "will-change": "transform"
+                    })
+                },
                 moveFn:function(p){
                     var len = p.move.x,
                         pre = len/win_width;
@@ -225,6 +238,7 @@ DEVICE.productChange = (function(){
                 dom4.cssAnimate(_this.getListCss(3),500);
                 _this.nowPage++;
                 _this.nowPage = (_this.nowPage>_this.maxPage)? 0 : _this.nowPage;
+                _this.setPoints();
             //},0);
 
         },
@@ -255,6 +269,7 @@ DEVICE.productChange = (function(){
 
                 _this.nowPage--;
                 _this.nowPage = (_this.nowPage<0)? _this.maxPage : _this.nowPage;
+                _this.setPoints();
             //},0)
 
         },
@@ -294,8 +309,58 @@ DEVICE.productChange = (function(){
                 dom4.cssAnimate(this.getListCss(4),500);
             }
 
-        }
+            this.lists.css({
+                "will-change":"auto"
+            })
+        },
+        createDian:function(){
+            var _this = this;
 
+            var div = $("<div></div>"),
+                width = _this.lists.length * 22,
+                display = "block";
+            div.css({
+                width: width + "px",
+                height: "10px",
+                position: "absolute",
+                bottom: "20px",
+                left: "50%",
+                "margin-left": -width / 2 + "px",
+                display:display,
+                "z-index":9999
+            });
+
+
+            var span = $("<div></div>");
+            span.css({
+                width: "10px",
+                height: "10px",
+                margin: "0 5px",
+                background: this.pointBg,
+                "border-radius": "5px",
+                float: "left",
+                border:"1pt solid transparent"
+            });
+
+            for (var i = 0, l = this.lists.length; i < l; i++) {
+                var this_item = span.clone().attr({ n: i });
+                if (i == 0) {
+                    this_item.css({ background: this.pointSelectBg,"border-color":"#fff" })
+                }
+                div.append(this_item);
+            }
+            this.points = div.find("div");
+            this.pointBody = div;
+
+            this.body.append(div)
+        },
+        setPoints:function(){
+            this.points.css({background:this.pointBg,border:"1pt solid transparent"});
+            this.points.eq(this.nowPage).css({background:this.pointSelectBg,"border-color":"#fff"})
+            this.lists.css({
+                "will-change":"auto"
+            })
+        }
 
 
     };

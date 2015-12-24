@@ -11,7 +11,7 @@
  */
 
 
-//banner滚动效果，显示3张循环立体效果，微信用，只是不支持手指移动时的时时滑动
+//banner滚动效果，显示3张循环立体效果，只是不支持手指移动时的时时滑动
 //依赖  slide_event.js
 
 //new DEVICE.productChange({
