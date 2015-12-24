@@ -60,6 +60,7 @@ $.fn.cssAnimate=(function(){
 				_thatstyle[device._transitionTimingFunction] = "";
 				_thatstyle["webkitTransformStyle"]="";
 				_thatstyle["webkitBackfaceVisibility"]="";
+				_thatstyle.willChange = "auto";
 
 				callback();
 				clearfn(_that,thiskey);
@@ -69,6 +70,7 @@ $.fn.cssAnimate=(function(){
 		_thatstyle[device._transitionProperty] = "all";
 		_thatstyle[device._transitionDuration] = time+"ms";
 		_thatstyle[device._transitionTimingFunction] = type;
+		_thatstyle.willChange = "all";
 
 		_thatstyle["webkitTransformStyle"]="preserve-3d";   //webkit私有
 		if(!is_3d){
