@@ -124,6 +124,16 @@ var download = function(){
 
 	texts = texts.join("");
 
+
+	//去注释 换行
+	var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
+	texts = texts.replace(reg, function(word) { // 去除注释后的文本
+		return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;
+	});
+	texts = texts.replace(/\n|\r|\t/g,"");
+
+
+
 	var blob = new Blob([texts]);
 	var src= window.URL.createObjectURL(blob);
 
