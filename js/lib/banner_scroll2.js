@@ -47,7 +47,7 @@ DEVICE.productChange = (function(){
             {
                 deg:deg*2,
                 z:-z*2,
-                x:-left
+                x:-left*3
             },
             {
                 deg:deg,
@@ -67,7 +67,7 @@ DEVICE.productChange = (function(){
             {
                 deg:-deg*2,
                 z:-z*2,
-                x:right
+                x:right*3
             }
 
         ];
@@ -232,13 +232,13 @@ DEVICE.productChange = (function(){
 
             var _this = this;
             //setTimeout(function(){
-                dom1.cssAnimate(_this.getListCss(0),500);
-                dom2.cssAnimate(_this.getListCss(1),500);
-                dom3.cssAnimate(_this.getListCss(2),500);
-                dom4.cssAnimate(_this.getListCss(3),500);
-                _this.nowPage++;
-                _this.nowPage = (_this.nowPage>_this.maxPage)? 0 : _this.nowPage;
-                _this.setPoints();
+            dom1.cssAnimate(_this.getListCss(0),500,function(){dom1.css({display:"none"})});
+            dom2.cssAnimate(_this.getListCss(1),500);
+            dom3.cssAnimate(_this.getListCss(2),500);
+            dom4.cssAnimate(_this.getListCss(3),500);
+            _this.nowPage++;
+            _this.nowPage = (_this.nowPage>_this.maxPage)? 0 : _this.nowPage;
+            _this.setPoints();
             //},0);
 
         },
@@ -262,14 +262,14 @@ DEVICE.productChange = (function(){
 
             var _this = this;
             //setTimeout(function(){
-                dom0.cssAnimate(_this.getListCss(1),500);
-                dom1.cssAnimate(_this.getListCss(2),500);
-                dom2.cssAnimate(_this.getListCss(3),500);
-                dom3.cssAnimate(_this.getListCss(4),500);
+            dom0.cssAnimate(_this.getListCss(1),500);
+            dom1.cssAnimate(_this.getListCss(2),500);
+            dom2.cssAnimate(_this.getListCss(3),500);
+            dom3.cssAnimate(_this.getListCss(4),500,function(){dom3.css({display:"none"})});
 
-                _this.nowPage--;
-                _this.nowPage = (_this.nowPage<0)? _this.maxPage : _this.nowPage;
-                _this.setPoints();
+            _this.nowPage--;
+            _this.nowPage = (_this.nowPage<0)? _this.maxPage : _this.nowPage;
+            _this.setPoints();
             //},0)
 
         },
@@ -288,7 +288,7 @@ DEVICE.productChange = (function(){
                 dom2 = this.lists.eq(n2);
                 dom3 = this.lists.eq(n3);
 
-                dom0.cssAnimate(this.getListCss(0),time);
+                dom0.cssAnimate(this.getListCss(0),time,function(){dom0.css({display:"none"})});
                 dom1.cssAnimate(this.getListCss(1),time);
                 dom2.cssAnimate(this.getListCss(2),time);
                 dom3.cssAnimate(this.getListCss(3),time);
@@ -306,7 +306,7 @@ DEVICE.productChange = (function(){
                 dom1.cssAnimate(this.getListCss(1),500);
                 dom2.cssAnimate(this.getListCss(2),500);
                 dom3.cssAnimate(this.getListCss(3),500);
-                dom4.cssAnimate(this.getListCss(4),500);
+                dom4.cssAnimate(this.getListCss(4),500,function(){dom4.css({display:"none'"})});
             }
 
             this.lists.css({
@@ -317,7 +317,7 @@ DEVICE.productChange = (function(){
             var _this = this;
 
             var div = $("<div></div>"),
-                width = _this.lists.length * 22,
+                width = _this.lists.length * 20,
                 display = "block";
             div.css({
                 width: width + "px",
@@ -333,8 +333,8 @@ DEVICE.productChange = (function(){
 
             var span = $("<div></div>");
             span.css({
-                width: "10px",
-                height: "10px",
+                width: "8px",
+                height: "8px",
                 margin: "0 5px",
                 background: this.pointBg,
                 "border-radius": "5px",
