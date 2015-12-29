@@ -54,6 +54,29 @@ $(document).ready(function(){
 });
 
 
+var getParamFromUrl = function(param){
+	var find_val = "";
+
+	var search = window.location.search;
+	search = search.substr(1);
+	var searchs = search.split("&");
+
+	for( var i= 0,l=searchs.length;i<l;i++){
+		var this_val =  searchs[i],
+			this_keys = this_val.split("="),
+			this_key = this_keys[0];
+
+		if(this_key == param){
+			find_val = this_keys[1];
+			break;
+		}
+	}
+	return decodeURI(find_val);
+
+};
+
+
+
 var getScriptText = function(id){
 	var src = $("#"+id).attr("src");
 
@@ -126,12 +149,13 @@ var download = function(){
 
 
 	//去注释 换行
-	var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
-	texts = texts.replace(reg, function(word) { // 去除注释后的文本
-		return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;
-	});
-	texts = texts.replace(/\n|\r|\t/g,"");
-
+	if(getParamFromUrl("zip")){
+		var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
+		texts = texts.replace(reg, function(word) { // 去除注释后的文本
+			return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;
+		});
+		texts = texts.replace(/\n|\r|\t/g,"");
+	}
 
 
 	var blob = new Blob([texts]);
