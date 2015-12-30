@@ -212,7 +212,7 @@ DEVICE.productChange = (function(){
             }
 
         },
-        leftMove:function(pre,isAnimate){
+        leftMove:function(pre,isAnimate,callback){
             var n1 = (this.nowPage -1 < 0)? this.maxPage : this.nowPage - 1,
                 n2 = this.nowPage,
                 n3 = (this.nowPage + 1 > this.maxPage)? 0 : this.nowPage + 1,
@@ -221,6 +221,8 @@ DEVICE.productChange = (function(){
                 dom2 = this.lists.eq(n2),
                 dom3 = this.lists.eq(n3),
                 dom4 = this.lists.eq(n4).css3(this.getListCss(4)).css({display:"block"});
+            callback = callback || function(){};
+
 
             if(!isAnimate){
                 dom1.css3(this.getMovingStyle(pre,1,0));
@@ -232,7 +234,10 @@ DEVICE.productChange = (function(){
 
             var _this = this;
             //setTimeout(function(){
-            dom1.cssAnimate(_this.getListCss(0),500,function(){dom1.css({display:"none"})});
+            dom1.cssAnimate(_this.getListCss(0),500,function(){
+                dom1.css({display:"none"});
+                callback();
+            });
             dom2.cssAnimate(_this.getListCss(1),500);
             dom3.cssAnimate(_this.getListCss(2),500);
             dom4.cssAnimate(_this.getListCss(3),500);
@@ -242,7 +247,7 @@ DEVICE.productChange = (function(){
             //},0);
 
         },
-        rightMove:function(pre,isAnimate){
+        rightMove:function(pre,isAnimate,callback){
             var n1 = (this.nowPage -1 < 0)? this.maxPage : this.nowPage - 1,
                 n0 = (n1 - 1 <0)? this.maxPage : n1 -1,
                 n2 = this.nowPage,
@@ -251,6 +256,7 @@ DEVICE.productChange = (function(){
                 dom1 = this.lists.eq(n1),
                 dom2 = this.lists.eq(n2),
                 dom3 = this.lists.eq(n3);
+            callback = callback || function(){};
 
             if(!isAnimate) {
                 dom0.css3(this.getMovingStyle(pre, 0, 1));
@@ -265,7 +271,10 @@ DEVICE.productChange = (function(){
             dom0.cssAnimate(_this.getListCss(1),500);
             dom1.cssAnimate(_this.getListCss(2),500);
             dom2.cssAnimate(_this.getListCss(3),500);
-            dom3.cssAnimate(_this.getListCss(4),500,function(){dom3.css({display:"none"})});
+            dom3.cssAnimate(_this.getListCss(4),500,function(){
+                dom3.css({display:"none"});
+                callback();
+            });
 
             _this.nowPage--;
             _this.nowPage = (_this.nowPage<0)? _this.maxPage : _this.nowPage;
@@ -323,7 +332,7 @@ DEVICE.productChange = (function(){
                 width: width + "px",
                 height: "10px",
                 position: "absolute",
-                bottom: "20px",
+                bottom: "10px",
                 left: "50%",
                 "margin-left": -width / 2 + "px",
                 display:display,
