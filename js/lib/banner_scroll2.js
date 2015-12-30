@@ -361,11 +361,11 @@ DEVICE.productChange = (function(){
             this.points = div.find("div");
             this.pointBody = div;
 
-            this.body.append(div)
+            this.body.append(div);
         },
         setPoints:function(){
             this.points.css({background:this.pointBg,border:"1pt solid transparent"});
-            this.points.eq(this.nowPage).css({background:this.pointSelectBg,"border-color":"#fff"})
+            this.points.eq(this.nowPage).css({background:this.pointSelectBg,"border-color":"#fff"});
             this.lists.css({
                 "will-change":"auto"
             })
