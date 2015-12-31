@@ -326,7 +326,7 @@ DEVICE.productChange = (function(){
             var _this = this;
 
             var div = $("<div></div>"),
-                width = _this.lists.length * 20,
+                width = _this.lists.length * 22,
                 display = "block";
             div.css({
                 width: width + "px",
