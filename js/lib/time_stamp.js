@@ -50,7 +50,7 @@ DEVICE.time2stamp = function(a){
 
 	var new_str = a.replace(/:/g,'-');
 	new_str = new_str.replace(/ /g,'-');
-	new_str = new_str.replace(/ /g,'-');
+	new_str = new_str.replace(/\//ig,'-');
 	var arr = new_str.split("-");
 	if(arr.length != 6){
 		for(var i= 0,l=6-arr.length;i<l;i++){
