@@ -459,4 +459,14 @@ var DEVICE = {};
 	DEVICE.boxVendors = boxVendors;
 
 	DEVICE.checkDomHasPosition = checkDomHasPosition;
+
+	DEVICE.trim = function(str){
+		return str.replace(/(^\s*)|(\s*$)/g, "");
+	};
+	DEVICE.getBetweenNumber = function(val,min,max){
+		val = (val>max)? max : val;
+		val = (val<min)? min : val;
+		return val;
+	};
+
 })();
