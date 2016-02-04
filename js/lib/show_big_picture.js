@@ -14,6 +14,7 @@
 
 //点击小图显示全屏图
 //var a = new DEVICE.showBigPicture({
+//	type:"pc",       //@param:str  写死pc,不写默认为手机使用滑动切换
 //	imgs:[
 //		"http://file.ynet.com/2/1509/11/10370925-500.jpg",
 //		"http://file.ynet.com/2/1509/11/10370926-500.jpg"
@@ -28,6 +29,7 @@
 DEVICE.showBigPicture = (function(){
 	var showPicture = function(data){
 		this.imgs = data.imgs || [];
+		this.isPc = (data.type == "pc");
 		this.arrowImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAG+SURBVFiFvdbNi05hGMfxy3grRihjYZKEksZKsrAhWWGhlCzEhthYYM0fYCn/gJSUrbzEbmYhxcLCWI0USjE1UzN5eeZjMTaernPmOed53L+6F/fr99t9d7pOICrabjzGJK5iWc3a1q1u8oV/cxfLBy0wFNUZ7eqfjYiHEbG6Zk/z1Nidl+cZ1pZ4gsC1CokJbCghELiATiLxBptLCARO42ciMYmtJQQCxzCfSHzAzhICgUOYSSS+YG8JgcB+fEskvuNACYHAGD4nErM4XEIgsANTicQ8TpQQCIziXSLxC2dKCARG8DqR6OBiCYHAeownEnClhEBgDZ4kArNYV7Wvrho2zVxE3EvGhyNie5tq2LRdlteMiRJPcDMBw0ts+p8CQ7hTAX+qh/+GfuCr8KACfh8rezmnLXwYzyvgt//eTE9ntYGP4FUF/EbT85rCt+F9Au7gUpvbbLJ4DJ8S+A+cagNvInAQ0wl8BkfawnsVOI65BP4V+/qB9yJwzmJp7c4UdvULX0rgJBYS+FtsGQR8KYHsUxvHxkHBqa+GH7v6jyLiaERMNy2TdVlRM3c9IhYiYk8sltlbEfF7kPCIiD92sihgXGAdaAAAAABJRU5ErkJggg==";
 		this.closeImg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEPSURBVFiF7ZexjQIxEEW/4bQJFEALJJccHdADVVAB0bZBQBmIJg4CaICYEpDQI2CCPZ+Fh9PuWUj7JQe2v2feanfG2gCopAZFs/cAPcA7AVSSZpKCwxvMW7kiA7kxAS48dLL5M+/JvJeMV4ALYMlPfQOjhG9ke00t2wCY8ltbYNjwDG0t1rQNAAF1Ivi6sb9O7Nee2F4AAZtEkpWNWBtv3FcAPoBdIlmsnXlbBxAwBg5Pkh/M4475KoB4lNY5kfyMo+ziUbwTvtUrKP4RFi3DOpHk3xpRp63YUwXzaL6XtJB0a6zdbG2fOfunKuj0Og7g+i+oJH3aE+YOBElfko6SrrnAXoDOVLwT9gA9QHGAOyELxcimF9NPAAAAAElFTkSuQmCC";
 
@@ -51,7 +53,13 @@ DEVICE.showBigPicture = (function(){
 			this.createButton();
 			this.createLoading();
 			this.createImgDiv();
-			this.eventBind();
+
+			if(this.isPc){
+				this.eventBind();
+			}else{
+				this.eventBindPhone();
+			}
+
 
 
 			$("body").append(this.main);
@@ -104,12 +112,14 @@ DEVICE.showBigPicture = (function(){
 			});
 
 
+			if(this.isPc){
+				this.leftBtn = leftBtn;
+				this.rightBtn = rightBtn;
+				this.main.append(rightBtn);
+				this.main.append(leftBtn);
+			}
 
-			this.leftBtn = leftBtn;
-			this.rightBtn = rightBtn;
 			this.closeBtn = closeBtn;
-			this.main.append(rightBtn);
-			this.main.append(leftBtn);
 			this.main.append(closeBtn);
 		},
 		createLoading:function(){
@@ -127,7 +137,7 @@ DEVICE.showBigPicture = (function(){
 				"margin-left":"-16px"
 			});
 
-			div.css3Animate({
+			div.cssAnimate({
 				"0%":"transform:rotate(0deg)",
 				"100%":"transform:rotate(360deg)"
 			},800,"ease-in",true,false);
@@ -137,12 +147,22 @@ DEVICE.showBigPicture = (function(){
 		},
 		createImgDiv:function(){
 			var div = $("<div class='___img_main___'></div>");
-			div.css({
-				width:"95%",height:"95%",
-				position:"absolute",
-				left:"2.5%",
-				top:"2.5%"
-			});
+			if(this.isPc){
+				div.css({
+					width:"95%",height:"95%",
+					position:"absolute",
+					left:"2.5%",
+					top:"2.5%"
+				});
+			}else{
+				div.css({
+					width:"100%",
+					height:"100%",
+					position:"absolute",
+					left:0,top:0
+				});
+			}
+
 			div.append(this.loadDom);
 			this.imgDiv = div;
 		},
@@ -244,9 +264,32 @@ DEVICE.showBigPicture = (function(){
 				_this.destroy();
 			});
 		},
+		eventBindPhone:function(){
+			var _this = this;
+
+			$$$(this.main).myslideleft(function(){
+				if(!_this.canClick){return;}
+				var n = _this.nowShowNumber + 1;
+				_this.showImg(n);
+			});
+			$$$(this.main).myslideright(function(){
+				if(!_this.canClick){return;}
+				var n = _this.nowShowNumber - 1;
+				_this.showImg(n);
+
+			});
+
+			this.closeBtn.click(function(){
+				_this.destroy();
+			});
+		},
 		destroy:function(){
-			this.leftBtn.unbind("click");
-			this.rightBtn.unbind("click");
+			if(this.isPc){
+				this.leftBtn.unbind("click");
+				this.rightBtn.unbind("click");
+			}else{
+				$$$(this.main).unbind(true);
+			}
 			this.closeBtn.unbind("click");
 			this.main.remove();
 		}
