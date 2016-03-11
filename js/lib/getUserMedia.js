@@ -17,6 +17,9 @@
 //判断是否支持
 //a.isSupport();
 
+//停止采集
+//a.stop();
+
 
 //支持：chrome,firefox，edge，opera  手机目前只有chrome支持
 
