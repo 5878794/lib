@@ -96,6 +96,7 @@ DEVICE.getUserMedia = (function(){
                 },
                 // successCallback
                 function(localMediaStream) {
+                    _this.localMediaStream = localMediaStream;
                     _this.video.get(0).src = window.URL.createObjectURL(localMediaStream);
                     _this.video.get(0).onloadedmetadata = function(e) {
                         _this.video.get(0).play();
@@ -125,6 +126,19 @@ DEVICE.getUserMedia = (function(){
             var src = this.canvas.get(0).toDataURL("image/png");
 
             return src;
+        },
+        stop:function(){
+            if(this.localMediaStream){
+                if(this.localMediaStream.stop){
+                    this.localMediaStream.stop();
+                }
+                var track = this.localMediaStream.getTracks() || [];
+                track = track[0];
+                if(track.stop){
+                    track.stop();
+                }
+                this.video.get(0).src = "";
+            }
         }
     };
 
