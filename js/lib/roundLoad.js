@@ -3,7 +3,7 @@
  */
 
 
-//画一个圆，主要用于loading动画
+//画一个圆，主要用于loading动画   dom模拟的，建议不用了改用svg
 //var a = new DEVICE.roundLoad({
 //    body:$("#div"),         //@param：jqpbj  要在哪个容器内画，会自动根据该容器的宽高计算半径
 //    startRotate:90,         //@param：number 初始从多少度开始画，默认90
