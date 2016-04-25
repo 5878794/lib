@@ -14,7 +14,7 @@
 //<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
 //psd_width 需要设置psd的实际输出宽度
 //psd中的元素布局按实际大小除以100，然后使用rem为单位
-//未考虑转屏的问题  TODO
+//未考虑转屏的问题        TODO
 
 
 
