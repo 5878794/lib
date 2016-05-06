@@ -4,11 +4,17 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//TODO
-//resize
-//destroy
-//滚动条与滚动巢间歇点击会触发滚动
-//鼠标指针，滚动条屏蔽全选
+//div 生成模拟的滚动条
+
+//new DEVICE.divScrollBar({
+//    id:"test1",               //div的id
+//    background:"#ececec",     //滚动条的背景色
+//    color:"#333",             //滚动条颜色
+//    scrollBarWidth:12,        //滚动巢的宽度
+//    checkDomResizeTime:500,    //检查dom变化的时间\
+//    scrollAnimateLength:30,     //window系统下滚动条每次滚动的距离
+//    animateTime:400           //每次滚动的时间
+//});
 
 DEVICE.divScrollBar = function () {
     function divScrollBar(opt) {
@@ -17,8 +23,10 @@ DEVICE.divScrollBar = function () {
         this.id = opt.id;
         this.background = opt.background || "#ececec";
         this.color = opt.color || "#333";
-        this.opacity = opt.opacity || 0.8;
         this.scrollBarWidth = opt.scrollBarWidth || 12;
+        this.checkDomResizeTime = opt.checkDomResizeTime || 500;
+        this.scrollAnimateLength = opt.scrollAnimateLength || 30;
+        this.animateTime = opt.animateTime || 400;
 
         //PARAM
         this.scrollTop = 0;
@@ -40,6 +48,9 @@ DEVICE.divScrollBar = function () {
 
         this.isShowScrollX = false;
         this.isShowScrollY = false;
+
+        this.intervalFn = null;
+        this.animateFn = null;
 
         //DOM
         this.dom = $("#" + this.id);
@@ -109,7 +120,8 @@ DEVICE.divScrollBar = function () {
                 width: this.scrollBarWidth + "px",
                 bottom: 0,
                 background: this.background,
-                display: "none"
+                display: "none",
+                cursor: "default"
             });
 
             div1.css3({
@@ -121,7 +133,8 @@ DEVICE.divScrollBar = function () {
                 background: this.color,
                 "border-radius": this.scrollBarWidth + "px",
                 "font-size": 0,
-                "-webkit-text-size-adjust": "none"
+                "-webkit-text-size-adjust": "none",
+                cursor: "default"
             });
         }
     }, {
@@ -143,7 +156,8 @@ DEVICE.divScrollBar = function () {
                 height: this.scrollBarWidth + "px",
                 bottom: 0,
                 background: this.background,
-                display: "none"
+                display: "none",
+                cursor: "default"
             });
 
             div1.css3({
@@ -153,14 +167,15 @@ DEVICE.divScrollBar = function () {
                 width: "20px",
                 height: "60%",
                 background: this.color,
-                "border-radius": this.scrollBarWidth + "px"
+                "border-radius": this.scrollBarWidth + "px",
+                cursor: "default"
             });
         }
     }, {
         key: "_refresh",
         value: function _refresh() {
-            this.htmlWidth = parseInt(this.html.width());
-            this.htmlHeight = parseInt(this.html.height());
+            this.htmlWidth = parseInt(this.html.outerWidth());
+            this.htmlHeight = parseInt(this.html.outerHeight());
             this.bodyWidth = parseInt(this.body.width());
             this.bodyHeight = parseInt(this.body.height());
 
@@ -225,7 +240,7 @@ DEVICE.divScrollBar = function () {
     }, {
         key: "_addEventListener",
         value: function _addEventListener() {
-            var _this = this;
+            var _this2 = this;
 
             //鼠标滚轮事件
             this.dom.mousewheel(function (e) {
@@ -233,25 +248,35 @@ DEVICE.divScrollBar = function () {
                 var deltaX = e.deltaX;
                 var deltaY = e.deltaY;
 
-                _this.move(-deltaX, deltaY);
+
+                if (DEVICE.isMac) {
+                    _this2.move(-deltaX, deltaY);
+                    return;
+                }
+
+                //window系统无法获取滚动的实际距离，只有动画模拟
+                deltaX = deltaX > 0 ? _this2.scrollAnimateLength : deltaX < 0 ? -_this2.scrollAnimateLength : 0;
+                deltaY = deltaY > 0 ? _this2.scrollAnimateLength : deltaY < 0 ? -_this2.scrollAnimateLength : 0;
+
+                _this2.scrollAnimate(-deltaX, deltaY);
             });
 
             //滚动条点击事件
             this.scrollerX.get(0).addEventListener("mousedown", function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                _this._mouseDown("x", e);
+                _this2._mouseDown("x", e);
             }, false);
             this.scrollerY.get(0).addEventListener("mousedown", function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                _this._mouseDown("y", e);
+                _this2._mouseDown("y", e);
             }, false);
             document.body.addEventListener("mousemove", function (e) {
-                _this._mouseMove(e);
+                _this2._mouseMove(e);
             }, false);
             document.body.addEventListener("mouseup", function (e) {
-                _this._mouseUp();
+                _this2._mouseUp();
             }, false);
             this.scrollerX.get(0).addEventListener("click", function (e) {
                 e.stopPropagation();
@@ -264,11 +289,45 @@ DEVICE.divScrollBar = function () {
 
             //滚动巢事件
             this.scrollBarX.get(0).addEventListener("click", function (e) {
-                _this._scrollBarClick("x", e);
+                _this2._scrollBarClick("x", e);
             }, false);
             this.scrollBarY.get(0).addEventListener("click", function (e) {
-                _this._scrollBarClick("y", e);
+                _this2._scrollBarClick("y", e);
             }, false);
+
+            //检查容器大小是否变化
+            this.intervalFn = setInterval(function () {
+                _this2._checkDomResize();
+            }, this.checkDomResizeTime);
+        }
+    }, {
+        key: "scrollAnimate",
+        value: function scrollAnimate(x, y) {
+            if (this.animateFn) {
+                this.animateFn.stop();
+            }
+            var _this = this;
+
+            this.animateFn = new DEVICE.jsAnimate({
+                start: 0, //@param:number   初始位置
+                end: 1, //@param:number   结束位置
+                time: this.animateTime, //@param:number   动画执行时间  ms
+                type: "Cubic", //@param:str      tween动画类别,默认：Linear 详见函数内tween函数
+                class: "easeOut", //@param:str      tween动画方式,默认：easeIn 详见函数内tween函数
+                stepFn: function stepFn(val) {
+                    //@param:fn       每步执行函数,返回当前属性值
+                    _this.move(val * x, val * y);
+                },
+                endFn: function endFn() {//@param:fn       动画结束执行
+
+                },
+                alternate: false, //@param:boolean  动画结束时是否反向运行，默认：false
+                infinite: false //@param:boolean  动画是否循环执行，默认：false
+                //设置该参数endFn将失效
+            });
+            this.animateFn.play();
+
+            //this.move(x,y);
         }
     }, {
         key: "move",
@@ -349,12 +408,13 @@ DEVICE.divScrollBar = function () {
 
             if (type == "y") {
                 var p = e.clientY - this.scrollBarY.offset().top,
-                    y = abs(this.scrollTop) / this.maxScrollTop * (this.htmlHeight - this.scrollYLength);
+                    y = abs(this.scrollTop) / this.maxScrollTop * (this.htmlHeight - this.scrollYLength),
+                    max_y = y + this.scrollYLength;
 
                 if (p < y) {
                     //点的滚动条上面的滚动巢
                     this.move(0, this.htmlHeight);
-                } else {
+                } else if (p > max_y) {
                     //点的滚动条下面的滚动巢
                     this.move(0, -this.htmlHeight);
                 }
@@ -362,20 +422,28 @@ DEVICE.divScrollBar = function () {
 
             if (type == "x") {
                 var p = e.clientX - this.scrollBarX.offset().left,
-                    x = abs(this.scrollLeft) / this.maxScrollLeft * (this.htmlWidth - this.scrollXLength);
+                    x = abs(this.scrollLeft) / this.maxScrollLeft * (this.htmlWidth - this.scrollXLength),
+                    max_x = x + this.scrollXLength;
 
                 if (p < x) {
                     //点的滚动条上面的滚动巢
                     this.move(this.htmlWidth, 0);
-                } else {
+                } else if (p > max_x) {
                     //点的滚动条下面的滚动巢
                     this.move(-this.htmlWidth, 0);
                 }
             }
         }
     }, {
-        key: "destroy",
-        value: function destroy() {}
+        key: "_checkDomResize",
+        value: function _checkDomResize() {
+            var height = parseInt(this.html.outerHeight()),
+                width = parseInt(this.html.outerWidth);
+
+            if (height != this.htmlHeight || width != this.htmlWidth) {
+                this._refresh();
+            }
+        }
     }]);
 
     return divScrollBar;

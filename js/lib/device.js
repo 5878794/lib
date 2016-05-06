@@ -29,6 +29,8 @@ var DEVICE = {};
 //DEVICE.isChrome           @param:bloom    是否是：chrome
 //DEVICE.isOpera            @param:bloom    是否是：opera
 //DEVICE.isSafari           @param:bloom    是否是：safari
+//DEVICE.isPc				@param:bloom	是否是：pc
+//DEVICE.isPhone			@param:bloom	是否是：移动设备，非pc
 
 //DEVICE.ver                @param:number   浏览器版本或  ipad/iphone/android系统版本
 //---------------------------------------------------------
@@ -77,6 +79,22 @@ var DEVICE = {};
 
 	DEVICE.isPhone = (DEVICE.isAndroid || DEVICE.isIpad || DEVICE.isIphone);
 })();
+
+
+(function(){
+	var p = navigator.platform;
+	var win = p.indexOf("Win") == 0;
+	var mac = p.indexOf("Mac") == 0;
+	var x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+
+	DEVICE.isPc = (win || mac || x11);
+	DEVICE.isPhone = !DEVICE.isPc;
+	DEVICE.isMac = mac;
+	DEVICE.isWin = win;
+	DEVICE.isLinux = x11;
+
+})();
+
 
 
 
