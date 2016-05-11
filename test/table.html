@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="table-compiled.js"></script>
+    <script>
+        var d = {};
+        var test1 = function(rs){console.log(rs)};
+        d.test2 = function(rs){console.log(rs)};
+
+
+        $(document).ready(function(){
+            c = new DEVICE.table({
+                id:"test",
+                titleData:[
+                    {key:"name",type:"text",width:"50%",name:"目录"},
+                    {key:"time",type:"text",width:"30%",name:"时间"},
+                    {key:"",type:"btn",width:"20%",name:"操作",children:[
+                        {name:"按钮1",onclick:"test1"},
+                        {name:"按钮2",onclick:"d.test2"}
+                    ]}
+                ],
+                data:[
+                    {name:"1-1",time:"2014-11-11",id:1,children:[
+                        {name:"2-1",time:"2014-11-11",id:2,children:[]},
+                        {name:"2-2",time:"2014-11-11",id:3,children:[
+                            {name:"3-1",time:"2014-11-11",id:9,children:[]},
+                            {name:"3-2",time:"2014-11-11",id:10,children:[
+                                {name:"3-1",time:"2014-11-11",id:15,children:[]},
+                                {name:"3-2",time:"2014-11-11",id:16,children:[]},
+                                {name:"3-3",time:"2014-11-11",id:17,children:[]}
+                            ]},
+                            {name:"3-3",time:"2014-11-11",id:11,children:[
+                                {name:"3-1",time:"2014-11-11",id:12,children:[]},
+                                {name:"3-2",time:"2014-11-11",id:13,children:[]},
+                                {name:"3-3",time:"2014-11-11",id:14,children:[]}
+                            ]}
+                        ]},
+                        {name:"2-3",time:"2014-11-11",id:4,children:[
+                            {name:"3-1",time:"2014-11-11",id:5,children:[]},
+                            {name:"3-2",time:"2014-11-11",id:6,children:[]},
+                            {name:"3-3",time:"2014-11-11",id:7,children:[]}
+                        ]}
+                    ]},
+                    {name:"1-2",time:"2014-11-11",id:8,children:[]}
+                ],
+                firstCellPadding:40,
+                firstCellDefultPadding:40
+            })
+        })
+    </script>
+</head>
+<body>
+<style>
+    *{
+        padding: 0; margin: 0;
+    }
+    .body{
+        width: 100%; height: 300px;
+    }
+</style>
+
+<div id="test" class="body"></div>
+
+
+
+</body>
+</html>
