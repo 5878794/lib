@@ -51,6 +51,10 @@
 //c.hasChildren(id);
 //id    @param:number       服务器的id
 
+//增加第一行
+//c.addFirstRow(data);
+//data       @param:obj      具体的数据，跟初始数据一样
+
 //增加一行
 //c.addRow(parentId,data);
 //parentId   @param:number   父级id  服务器的id
@@ -94,10 +98,10 @@ DEVICE.table = class Table{
         this.firstCellPadding = opt.firstCellPadding || 20;
         this.firstCellDefultPadding = opt.firstCellDefultPadding || 20;
         this.defultShowIndex = opt.defultShowIndex || 2;
-        this.indexBg = opt.indexBg || ["red","yellow","#eee","#fff"];
-        this.lineColor = opt.lineColor || "blue";
+        this.indexBg = opt.indexBg || ["#00aceb","#d9d9d9","#eeeeee"];
+        this.lineColor = opt.lineColor || "#c6c6c6";
         this.titleBottomColor = opt.titleBottomColor || "#333";
-        this.rowBottomColor = opt.rowBottomColor || "red";
+        this.rowBottomColor = opt.rowBottomColor || "#ffffff";
         this.dbClickFn = opt.dbClickFn || function(){};
 
         this.img_jia = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAlklEQVQYV2NUUzVdwMjAoMCAB/xnYHjAqK5qeuDm7dMO+BSqq5pOwFCooGAgANL04MGFDzDNampmDRgKVVRMwKbfuXPmAFaFIJNYWFj1mRkZDEAK/v5nuPDnz++LIJNRTIQoZDFgZoAqZAAp/HMBQyHMGoJWwxQS7RlswQQOHlCA/2dgeM/IyAgPDmTF////F2BkYBAEAIzNV3kphFTVAAAAAElFTkSuQmCC";
@@ -168,7 +172,7 @@ DEVICE.table = class Table{
                 isLastRow = (i==l-1),
                 children = this_data.children || [],
                 bodyDisplay = (index <= this.defultShowIndex)? "block" : "none",
-                rowBg = this.indexBg[index-1] || "#fff";
+                rowBg = this.indexBg[index-1] || this.indexBg[this.indexBg.length-1];
 
 
             row.attr({id:id})
@@ -536,6 +540,14 @@ DEVICE.table = class Table{
             let data = $(this).data("serverData");
             _this.dbClickFn(data);
         })
+    }
+    //增加第一级
+    addFirstRow(data){
+        let container = this.body,
+            index = 1;
+
+        this._createList([data],container,index,-1);
+        this._refresh();
     }
 };
 
