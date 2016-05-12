@@ -3,10 +3,15 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
+        <item url="file://$PROJECT_DIR$/test/table-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/js/lib/test-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
+      <root url="file://$PROJECT_DIR$/test/table-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>

@@ -1,6 +1,87 @@
 //自动生成分级表格
 
 
+//初始化
+//var c = new DEVICE.table({
+//    id:"test",
+//    titleData:[
+//        {key:"name",type:"text",width:"50%",name:"目录"},
+//        {key:"time",type:"text",width:"30%",name:"时间"},
+//        {key:"",type:"btn",width:"20%",name:"操作",children:[
+//            {name:"按钮1",onclick:"test1"},
+//            {name:"按钮2",onclick:"d.test2"},
+//            {name:"增加二级",onclick:"d.add"},
+//            {name:"删除",onclick:"d.del"}
+//        ]}
+//    ],
+//    data:[
+//        {name:"1-1",time:"2014-11-11",id:1,children:[
+//            {name:"2-1",time:"2014-11-11",id:2,children:[]},
+//            {name:"2-2",time:"2014-11-11",id:3,children:[
+//                {name:"3-1",time:"2014-11-11",id:9,children:[]},
+//                {name:"3-2",time:"2014-11-11",id:10,children:[
+//                    {name:"3-1",time:"2014-11-11",id:15,children:[]},
+//                    {name:"3-2",time:"2014-11-11",id:16,children:[]},
+//                    {name:"3-3",time:"2014-11-11",id:17,children:[]}
+//                ]},
+//                {name:"3-3",time:"2014-11-11",id:11,children:[
+//                    {name:"3-1",time:"2014-11-11",id:12,children:[]},
+//                    {name:"3-2",time:"2014-11-11",id:13,children:[]},
+//                    {name:"3-3",time:"2014-11-11",id:14,children:[]}
+//                ]}
+//            ]},
+//            {name:"2-3",time:"2014-11-11",id:4,children:[
+//                {name:"3-1",time:"2014-11-11",id:5,children:[]},
+//                {name:"3-2",time:"2014-11-11",id:6,children:[]},
+//                {name:"3-3",time:"2014-11-11",id:7,children:[]}
+//            ]}
+//        ]},
+//        {name:"1-2",time:"2014-11-11",id:8,children:[]}
+//    ],
+//    firstCellPadding:40,
+//    firstCellDefultPadding:150
+//});
+
+
+//删除一行
+//c.delRow(id);
+//id    @param:number       服务器的id
+
+//判断是否有子集
+//c.hasChildren(id);
+//id    @param:number       服务器的id
+
+//增加一行
+//c.addRow(parentId,data);
+//parentId   @param:number   父级id  服务器的id
+//data       @param:obj      具体的数据，跟初始数据一样
+
+//保存数据
+//c.saveRow(id,data);
+//id         @param:number   数据id  服务器的id
+//data       @param:obj      具体的数据，跟初始数据一样
+
+
+//var d = {};
+//var _id = 100;
+//var test1 = function(rs){console.log(rs)};
+//d.test2 = function(rs){console.log(rs)};
+//d.add = function(rs){
+//    var id = rs.id,
+//        new_id = _id++;
+//    c.addRow(id,{name:"3-1",time:"2014-11-11",id:new_id,children:[]})
+//};
+//d.del = function(rs){
+//    var id = rs.id;
+//    if(!c.hasChildren(id)){
+//        c.delRow(id);
+//    }else{
+//        alert("有子集")
+//    }
+//};
+
+
+
 
 if(!window.DEVICE){window.DEVICE={};}
 
@@ -17,6 +98,7 @@ DEVICE.table = class Table{
         this.lineColor = opt.lineColor || "blue";
         this.titleBottomColor = opt.titleBottomColor || "#333";
         this.rowBottomColor = opt.rowBottomColor || "red";
+        this.dbClickFn = opt.dbClickFn || function(){};
 
         this.img_jia = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAlklEQVQYV2NUUzVdwMjAoMCAB/xnYHjAqK5qeuDm7dMO+BSqq5pOwFCooGAgANL04MGFDzDNampmDRgKVVRMwKbfuXPmAFaFIJNYWFj1mRkZDEAK/v5nuPDnz++LIJNRTIQoZDFgZoAqZAAp/HMBQyHMGoJWwxQS7RlswQQOHlCA/2dgeM/IyAgPDmTF////F2BkYBAEAIzNV3kphFTVAAAAAElFTkSuQmCC";
         this.img_jian = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVUlEQVQYV2NkIBIwgtSpq5gU/GVguIBNDzMDg8HNO2cmgBWqqJg43Llz5gA2hTA50hVCTGP8j2nqf0aQbXAT8fkJRSF13QgJHsbz2IPnvyE8eIgJcwCZjzcLe1vIRwAAAABJRU5ErkJggg==";
@@ -28,11 +110,12 @@ DEVICE.table = class Table{
     }
 
     _init(){
-        this._createMainContent();
         this._createTitle();
+        this._createMainContent();
         this._createList(this.data,this.body,1,-1);
         this._createCellLines();
-        this._addEvent();
+        this._addFHEvent();
+        this._addMdfEvent();
     }
 
     //创建包裹层
@@ -84,11 +167,13 @@ DEVICE.table = class Table{
                 id = "__table_row_"+this_data.id,
                 isLastRow = (i==l-1),
                 children = this_data.children || [],
-                bodyDisplay = (index <= this.defultShowIndex)? "display" : "none",
+                bodyDisplay = (index <= this.defultShowIndex)? "block" : "none",
                 rowBg = this.indexBg[index-1] || "#fff";
+
 
             row.attr({id:id})
                 .data({
+                    index:index,
                     serverData:this_data
                 })
                 .css({
@@ -99,13 +184,14 @@ DEVICE.table = class Table{
 
             //包裹层
             body.attr({
-                id:id+"__"
+                id:id+"__",
+                isLastRow:isLastRow
             }).data({
                 isLastRow:isLastRow,
                 parentId:parentId
             }).css({
                 display:bodyDisplay
-            });
+            }).addClass("____table_row_container__");
 
             //插入列
             this._createCellDom(this_data,row,index,isLastRow);
@@ -116,7 +202,7 @@ DEVICE.table = class Table{
 
             //判断是否有下一层
             if($.isArray(children) && children.length > 0){
-                this._createList(children,body,index+1,id+"__");
+                this._createList(children,body,index+1,id);
             }
         }
 
@@ -131,7 +217,7 @@ DEVICE.table = class Table{
             background:"#fff",
             color:"#333",
             "text-align":"center"
-        });
+        }).addClass("____table_row__");
         return div;
     }
     //创建列的dom
@@ -158,7 +244,8 @@ DEVICE.table = class Table{
                 btn = title_data.children;
 
             cell.css({width:width})
-                .text(data[key]);
+                .text(data[key])
+                .attr({key:key});
 
             //处理第一列
             if(z==0){
@@ -226,25 +313,50 @@ DEVICE.table = class Table{
     }
     //生成每行开头列的竖线
     _createCellLines(){
-        var doms = this.body.find(".__table_row_p__"),
+        let container = this.body.find(".____table_row_container__");
+        container.data({isLastRow:false}).attr({isLastRow:"false"});
+        container.each(function(){
+            let id = $(this).children(".____table_row__").last().attr("id"),
+                containerId = id+"__";
+
+            $("#"+containerId).data({isLastRow:true}).attr({isLastRow:"true"});
+        });
+
+
+
+
+        //生成线条
+        let doms = this.body.find(".__table_row_p__"),
             _this = this;
 
         doms.each(function(){
             let span = $(this).find("span"),
-                isLastRow = span.data("isLastRow"),
+                //isLastRow = span.data("isLastRow"),
                 index = span.data("index");
             if(index!=1){
-                _this._createCellLine($(this),index,isLastRow);
+                _this._createCellLine($(this),index);
             }
 
             _this._createFh($(this),index);
 
         });
+
+
+        //处理每个子集中最后一行的样式
+        container.each(function(){
+            $(this)
+                .children(".____table_row__")
+                .last()
+                .find(".____table_row_p_line2__")
+                .css({display:"none"});
+        });
+
+
     }
-    _createCellLine(dom,index,isLastRow){
+    _createCellLine(dom,index){
         //生成自身的线条
         let line1 = $("<div class='____table_row_p_line__'></div>"),
-            line2 = $("<div class='____table_row_p_line__'></div>"),
+            line2 = $("<div class='____table_row_p_line__ ____table_row_p_line2__'></div>"),
             left = (index-1.6)*this.firstCellPadding+this.firstCellDefultPadding,
             css = {
                 width:this.rowHeight/2+"px",
@@ -260,25 +372,26 @@ DEVICE.table = class Table{
         });
 
 
-
-        if(!isLastRow){
-            line2.css(css).css({
-                "border-left":"1px solid "+this.lineColor,
-                top:this.rowHeight/2+"px"
-            });
-        }
+        line2.css(css).css({
+            "border-left":"1px solid "+this.lineColor,
+            top:this.rowHeight/2+"px"
+        });
 
         dom.append(line1).append(line2);
+
+
 
 
         //生成之前层的线条 竖线
         let content = dom.parent().parent();
         for(let i=index;i>2;i--){
             //判断上一层是否是最后一个节点
-            if(content.data("isLastRow")){
+
+            if(content.attr("isLastRow")=="true"){
                 content = content.parent();
                 continue;
             }
+            content = content.parent();
 
             let line3 = $("<div class='____table_row_p_line__'></div>"),
                 left1 = (i-2.6)*this.firstCellPadding+this.firstCellDefultPadding;
@@ -290,6 +403,15 @@ DEVICE.table = class Table{
 
             dom.append(line3);
         }
+    }
+    //删除每行开头列的竖线
+    _delCellLines(){
+        let doms = this.body.find(".____table_row_p_line__"),
+            fh = this.body.find(".____table_row_fh____");
+
+        fh.unbind("click");
+        doms.remove();
+        fh.remove();
     }
     //添加每行开头有子集的  展开、合拢  按钮
     _createFh(dom,index){
@@ -325,7 +447,7 @@ DEVICE.table = class Table{
         dom.append(fh);
     }
     //添加事件
-    _addEvent(){
+    _addFHEvent(){
         var fh = this.body.find(".____table_row_fh____"),
             _this = this;
 
@@ -347,6 +469,73 @@ DEVICE.table = class Table{
                 });
             }
         });
+    }
+    //刷新每行开头列的竖线
+    _refresh(){
+        this._delCellLines();
+        this._createCellLines();
+        this._addFHEvent();
+    }
+    //删除
+    delRow(id){
+        id = "__table_row_"+id;
+        let childrenContainer = $("#"+id+"__"),
+            row = $("#"+id);
+
+        childrenContainer.remove();
+        row.remove();
+
+        this._refresh();
+    }
+    //判断是否有子集
+    hasChildren(id){
+        id = "__table_row_"+id;
+        let childrenContainer = $("#"+id+"__");
+        return (childrenContainer.find("div").length != 0);
+    }
+    //增加行
+    addRow(parentId,data){
+        let id = "__table_row_"+parentId;
+        let container = $("#"+id+"__"),
+            row = $("#"+id),
+            index = row.data("index")+1;
+
+        this._createList([data],container,index,id);
+        this._refresh();
+
+
+        let btn = row.find(".____table_row_fh____"),
+            isHidden = btn.data("isHidden");
+
+        if(isHidden){
+            btn.trigger("click");
+        }
+
+    }
+    //保存数据
+    saveRow(id,data){
+        let _id = "__table_row_"+id,
+            row = $("#"+_id);
+
+        row.find("p").each(function(){
+            let key = $(this).attr("key");
+            if(key && data[key]){
+                if($(this).find("span").length > 0){
+                    $(this).find("span").text(data[key]);
+                }else{
+                    $(this).text(data[key]);
+                }
+            }
+        });
+    }
+    //双击执行
+    _addMdfEvent(){
+        var _this = this;
+
+        this.body.find(".____table_row__").dblclick(function(){
+            let data = $(this).data("serverData");
+            _this.dbClickFn(data);
+        })
     }
 };
 
