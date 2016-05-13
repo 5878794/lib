@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="openCenterDiv.js"></script>
+    <script>
+        $(document).ready(function(){
+            c = new DEVICE.openCenterDiv({
+                id:"test",
+                width:"500",
+                title:"测试标题"
+            })
+        })
+    </script>
+</head>
+<body>
+<style>
+    *{
+        padding: 0; margin: 0;
+    }
+    .body {
+
+
+        background: red;
+        display: none;
+    }
+</style>
+
+<div id="test" class="body">
+    <div style="width: 500px; height: 300px;">123123</div>
+</div>
+
+
+
+</body>
+</html>
