@@ -2,6 +2,7 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/js/lib/select_infinite_cascade-compiled.js" />
         <item url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
         <item url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
         <item url="file://$PROJECT_DIR$/test/table-compiled.js" />
@@ -9,6 +10,7 @@
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/js/lib/test-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/select_infinite_cascade-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
       <root url="file://$PROJECT_DIR$/test/table-compiled.js" />
