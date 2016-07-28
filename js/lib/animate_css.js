@@ -11,6 +11,19 @@
  */
 
 
+//$.fn.cssAnimate(params)
+//@param data     	{transform:"scale(2)"}
+//@param time    	时间毫秒:2000
+//@param type   	动画方式:linear
+//@param is_3d  	是否3d模式渲染  true/false
+//@param callback  	动画完成回调:fn
+//@param willChange  硬件加速   	transform			变形
+// 							   	scroll-position		滚动
+// 								contents			内容变化
+//								opacity				透明度
+//								left, top			定位
+
+
 
 //css动画
 $.fn.cssAnimate=(function(){
@@ -30,7 +43,7 @@ $.fn.cssAnimate=(function(){
 			delete obj.__bens_cssfn_id__;
 		};
 
-	return function(data,time,callback,is_3d,type){
+	return function(data,time,callback,is_3d,type,willChange){
 		var _this=$(this),
 			_that = _this.get(0),
 			_thatstyle = _that.style;
@@ -40,6 +53,7 @@ $.fn.cssAnimate=(function(){
 		time = time || 1000;
 		callback = $.getFunction(callback);
 		is_3d = ($.isBoolean(is_3d))?  is_3d : false;
+		willChange = willChange || "auto";
 
 		if(_that.__bens_cssfn_id__){
 			var temp_key = _that.__bens_cssfn_id__;
@@ -70,7 +84,7 @@ $.fn.cssAnimate=(function(){
 		_thatstyle[device._transitionProperty] = "all";
 		_thatstyle[device._transitionDuration] = time+"ms";
 		_thatstyle[device._transitionTimingFunction] = type;
-		_thatstyle.willChange = "all";
+		_thatstyle.willChange = willChange;
 
 		_thatstyle["webkitTransformStyle"]="preserve-3d";   //webkit私有
 		if(!is_3d){

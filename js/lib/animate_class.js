@@ -20,7 +20,11 @@
 //@param infinite  动画是否循环: true/false
 //@param alternate 动画是否反向:  true/false
 //@param callback  动画完成回调:fn    循环时无效
-
+//@param willChange  硬件加速   	transform			变形
+// 							   	scroll-position		滚动
+// 								contents			内容变化
+//								opacity				透明度
+//								left, top			定位
 
 //停止循环的动画
 //$.fn.removeClassAnimate();
@@ -30,7 +34,7 @@ $.fn.classAnimate = (function(){
 	var fns = {},
 		clearFn = function(obj,_id){
 			obj.get(0).removeEventListener(DEVICE.ANIEND_EV,fns[_id],false);
-			obj.removeCss3Animate();
+			obj.removeClassAnimate();
 			delete fns[_id];
 		},
 		addFn = function(id,obj,callback){
@@ -43,13 +47,14 @@ $.fn.classAnimate = (function(){
 			},false);
 		};
 
-	return function(obj,time,type,infinite,alternate,callback){
+	return function(obj,time,type,infinite,alternate,callback,willChange){
 		var id = "__keyframes_"+DEVICE.counter()+"__";
 		time = parseInt(time) || 1000;
 		type = type || "linear";
 		infinite = $.getBloom(infinite);
 		//callback = $.getFunction(callback);
 		alternate = $.getBloom(alternate);
+		willChange = willChange || "auto";
 
 		time = time+"ms";
 		infinite = (infinite)? "infinite" :"";
@@ -67,6 +72,7 @@ $.fn.classAnimate = (function(){
 		var style = $("<style id='"+class_name+"'></style>");
 
 		var css = " animation: " + id + " " + time + " " + type + " " + infinite + " " + alternate +";";
+		//css += "will_change:all;";
 		css = $.css3(css);
 		css = "."+class_name+"{"+css+"} @keyframes "+id+"{";
 
@@ -105,6 +111,7 @@ $.fn.classAnimate = (function(){
 			if($(this).css("display") == "none" || $(this).css("visibility") == "hidden"){
 
 			}else{
+				$(this).css({"will-change":willChange});
 				$(this).addClass(class_name);
 				$(this).css(last_css);
 				$(this).get(0).__animate_css3_class__ = class_name;
@@ -138,6 +145,7 @@ $.fn.removeClassAnimate = function(){
 		var class_name = $(this).get(0).__animate_css3_class__;
 		temp[class_name] = true;
 		$(this).removeClass(class_name);
+		$(this).css({"will-change":"auto"});
 	});
 
 	for(var key in temp){

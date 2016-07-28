@@ -9,6 +9,7 @@
 
 
 //h5动画函数
+//由于未传dom进来，未使用willChange属性，需要在stepFn中自己添加
 //var a = new DEVICE.jsAnimate({
 //    start:0,                  //@param:number   初始位置
 //    end:1,                    //@param:number   结束位置
