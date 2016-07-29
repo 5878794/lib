@@ -38,10 +38,11 @@ $.fn.classAnimate = (function(){
 			obj.removeClassAnimate();
 			delete fns[_id];
 		},
-		addFn = function(id,obj,callback){
+		addFn = function(id,obj,callback,last_css){
 			var _id = "__temp_"+DEVICE.counter()+"__";
 			obj.get(0).addEventListener(DEVICE.ANIEND_EV,fns[_id] = function(e){
 				if(id == e.animationName){
+					obj.css(last_css);
 					callback.call(this);
 					clearFn(obj,_id);
 				}
@@ -53,7 +54,7 @@ $.fn.classAnimate = (function(){
 		time = parseInt(time) || 1000;
 		type = type || "linear";
 		infinite = $.getBloom(infinite);
-		//callback = $.getFunction(callback);
+		callback = $.getFunction(callback);
 		alternate = $.getBloom(alternate);
 		willChange = willChange || "auto";
 		delay = delay || 0;
@@ -117,23 +118,23 @@ $.fn.classAnimate = (function(){
 				$(this).css({"will-change":willChange});
 				$(this).addClass(class_name);
 
-				var _delay = parseInt(delay),
-					_this = this;
+				//var _delay = parseInt(delay),
+				//	_this = this;
 
 				$(this).get(0).__animate_css3_class__ = class_name;
 
-				if(_delay != 0){
-					setTimeout(function(){
-						$(_this).css(last_css);
-					},_delay)
-				}else{
-					$(this).css(last_css);
-				}
+				//if(_delay != 0){
+				//	setTimeout(function(){
+				//		$(_this).css(last_css);
+				//	},_delay)
+				//}else{
+				//	$(this).css(last_css);
+				//}
 			}
 		});
 
 
-		if(!$.isFunction(callback)){return $(this);}
+		//if(!$.isFunction(callback)){return $(this);}
 		if(infinite){return $(this);}
 
 
@@ -141,7 +142,7 @@ $.fn.classAnimate = (function(){
 			if($(this).css("display") == "none" || $(this).css("visibility") == "hidden"){
 
 			}else{
-				addFn(id,$(this),callback);
+				addFn(id,$(this),callback,last_css);
 			}
 		});
 
