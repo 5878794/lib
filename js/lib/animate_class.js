@@ -20,6 +20,7 @@
 //@param infinite  动画是否循环: true/false
 //@param alternate 动画是否反向:  true/false
 //@param callback  动画完成回调:fn    循环时无效
+//@param delay 		动画延迟多久播放  ms
 //@param willChange  硬件加速   	transform			变形
 // 							   	scroll-position		滚动
 // 								contents			内容变化
@@ -47,7 +48,7 @@ $.fn.classAnimate = (function(){
 			},false);
 		};
 
-	return function(obj,time,type,infinite,alternate,callback,willChange){
+	return function(obj,time,type,infinite,alternate,callback,delay,willChange){
 		var id = "__keyframes_"+DEVICE.counter()+"__";
 		time = parseInt(time) || 1000;
 		type = type || "linear";
@@ -55,8 +56,10 @@ $.fn.classAnimate = (function(){
 		//callback = $.getFunction(callback);
 		alternate = $.getBloom(alternate);
 		willChange = willChange || "auto";
+		delay = delay || 0;
 
 		time = time+"ms";
+		delay = delay+"ms";
 		infinite = (infinite)? "infinite" :"";
 		alternate = (alternate)? "alternate" : "";
 		var class_name = id+"class__";
@@ -71,7 +74,7 @@ $.fn.classAnimate = (function(){
 		var last_style = "";
 		var style = $("<style id='"+class_name+"'></style>");
 
-		var css = " animation: " + id + " " + time + " " + type + " " + infinite + " " + alternate +";";
+		var css = " animation: " + id + " " + time + " " + type + " " + delay + " " + infinite + " " + alternate +";";
 		//css += "will_change:all;";
 		css = $.css3(css);
 		css = "."+class_name+"{"+css+"} @keyframes "+id+"{";
@@ -113,8 +116,19 @@ $.fn.classAnimate = (function(){
 			}else{
 				$(this).css({"will-change":willChange});
 				$(this).addClass(class_name);
-				$(this).css(last_css);
+
+				var _delay = parseInt(delay),
+					_this = this;
+
 				$(this).get(0).__animate_css3_class__ = class_name;
+
+				if(_delay != 0){
+					setTimeout(function(){
+						$(_this).css(last_css);
+					},_delay)
+				}else{
+					$(this).css(last_css);
+				}
 			}
 		});
 
