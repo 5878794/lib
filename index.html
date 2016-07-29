@@ -20,6 +20,7 @@
     <script src="js/lib/animate_css.js" id="animate_css" message="css动画函数"></script>
     <script src="js/lib/animate_class.js" id="animate_class" message="class动画函数"></script>
     <script src="js/lib/animate_js.js" id="animate_js" message="h5 nextFrame 动画函数简单封装"></script>
+    <script src="js/lib/stepAnimate-compiled.js" id="stepAnimate" message="子元素的时间差逐步动画"></script>
     <script src="js/lib/get_param_from_url.js" id="get_param_from_url" message="获取地址栏参数函数"></script>
     <script src="js/lib/get_new_image_size.js" id="get_new_image_size" message="获取适合容器的图片大小"></script>
     <script src="js/lib/get_check_box_val.js" id="get_check_box_val" message="获取checkbox的选中值"></script>
@@ -65,6 +66,8 @@
     <script src="js/lib/divScrollBar-compiled.js" yl="animate_js,jquery_mousewheel" message="div滚动条模拟" id="divScrollBar"></script>
     <script src="js/lib/select_infinite_cascade-compiled.js" id="select_infinite_cascade" message="固定数据格式的无限级联菜单select"></script>
     <script src="js/lib/video_inline.js" id="video_inline" message="ios视频不全屏调用控件并自动播放，内嵌网页内播放"></script>
+
+
 
     <!--h5 接口类-->
     <script src="js/lib/h5_api_shock.js" id="shock" message="android手机震动api"></script>
@@ -126,8 +129,23 @@
 </head>
 <body>
 
+    <style>
 
-
+        .a{
+            transform:translateX(100px);
+            width:100px;
+            text-align: center;
+            /*background: red;*/
+       }
+    </style>
+    <div id="test">
+        <div class="a">1</div>
+        <div class="a">2</div>
+        <div class="a">3</div>
+        <div class="a">4</div>
+        <div class="a">5</div>
+        <div class="a">6</div>
+    </div>
 
 
 <!--<div id="test3d" style="width: 400px; height: 300px; background: #ccc; overflow: hidden;"></div>-->
