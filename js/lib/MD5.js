@@ -186,7 +186,7 @@ DEVICE.md5 = (function (){
         },hmac_hash:function (key,data){
             return binl2str(core_hmac_md5(key,data))
         },test:function (){
-            return MD5.hexdigest("abc")==="900150983cd24fb0d6963f7d28e17f72"
+            return DEVICE.md5.hexdigest("abc")==="900150983cd24fb0d6963f7d28e17f72"
         }
     };
     return obj
