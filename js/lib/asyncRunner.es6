@@ -29,8 +29,8 @@
 //    f:function(){setTimeout(function(){console.log("f");DEVICE.asyncRunner.next();},0);},
 //    g:function(){setTimeout(function(){console.log("g");DEVICE.asyncRunner.next();},100);}
 //};
-
-
+//
+//
 //执行方式
 //$(document).ready(function(){
 //    DEVICE.asyncRunner.run([
@@ -51,12 +51,12 @@
 
 
 (function(){
-    let event = document.createEvent('Event');
-    event.initEvent("asyncRunner",true,true);
-
-    document.addEventListener("asyncRunner",function(){
-        DEVICE.asyncRunner.go();
-    },false);
+    //let event = document.createEvent('Event');
+    //event.initEvent("asyncRunner",true,true);
+    //
+    //document.addEventListener("asyncRunner",function(){
+    //    DEVICE.asyncRunner.go();
+    //},false);
 
     let cache = [],
         start = 0,
@@ -67,8 +67,11 @@
     DEVICE.asyncRunner = {
         next:function(){
             end++;
+
+            let _this = this;
             setTimeout(function(){
-                document.dispatchEvent(event);
+                _this.go();
+                //document.dispatchEvent(event);
             },0)
         },
         go:function(){
@@ -108,25 +111,3 @@
     };
 })();
 
-//
-//var a = {
-//    a:function(){setTimeout(function(){console.log("a");DEVICE.asyncRunner.saveData("a",{a:1});DEVICE.asyncRunner.next();},100);},
-//    b:function(){setTimeout(function(){var data = DEVICE.asyncRunner.getData("a");console.log(data);DEVICE.asyncRunner.next();},100);},
-//    c:function(){setTimeout(function(){console.log("c");DEVICE.asyncRunner.next();},100);},
-//    d:function(){setTimeout(function(){console.log("d");DEVICE.asyncRunner.next();},0);},
-//    e:function(){setTimeout(function(){console.log("e");DEVICE.asyncRunner.next();},100);},
-//    f:function(){setTimeout(function(){console.log("f");DEVICE.asyncRunner.next();},0);},
-//    g:function(){setTimeout(function(){console.log("g");DEVICE.asyncRunner.next();},100);}
-//};
-//
-//
-//$(document).ready(function(){
-//    DEVICE.asyncRunner.run([
-//        {fn:a.a,async:true},
-//        {fn:a.b,async:true},
-//        {fn:a.c,async:true},
-//        {fn:a.d,async:true},
-//        {fn:a.e,async:true},
-//        {fn:a.f,async:true}
-//    ])
-//});
