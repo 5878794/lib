@@ -5,6 +5,10 @@
 
 //md5库，见最终返回的对象
 
+//DEVICE.md5(s);
+
+
+//暂时不用
 //DEVICE.md5.hexdigest(str);
 //DEVICE.md5.b64digest(str);
 //DEVICE.md5.hash(str);
@@ -172,6 +176,25 @@ DEVICE.md5 = (function (){
         }var hash=core_md5(ipad.concat(str2binl(data)),512+data.length*chrsz);
         return core_md5(opad.concat(hash),512+128)
     };
+
+    function Utf8Encode(string) {
+        var utftext = "";
+        for (var n = 0; n<string.length; n++) {
+            var c = string.charCodeAt(n);
+            if (c<128) {
+                utftext += String.fromCharCode(c);
+            } else if ((c>127) && (c<2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            } else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+        return utftext;
+    }
+
     var obj={
         hexdigest:function (s){
             return binl2hex(core_md5(str2binl(s),s.length*chrsz))
@@ -189,5 +212,14 @@ DEVICE.md5 = (function (){
             return DEVICE.md5.hexdigest("abc")==="900150983cd24fb0d6963f7d28e17f72"
         }
     };
-    return obj
+
+
+
+    //return obj
+
+    return function(s){
+        s = Utf8Encode(s);
+        return binl2hex(core_md5(str2binl(s),s.length*chrsz))
+    }
+
 })();
