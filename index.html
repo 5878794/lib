@@ -33,7 +33,6 @@
     <script src="js/lib/array.js" id="array" message="数组操作，排序/去重/最大值/最小值/中文排序/数组的push"></script>
     <script src="js/lib/divEditArea.js" id="divEditArea" message="可编辑div插入html"></script>
     <script src="js/lib/base64Toblob.js" id="base64Toblob" message="base64转blob blob转uri  手机大部分不支持"></script>
-    <script src="js/lib/bindDataBackHtml.js" id="bindDataBackHtml" message="模板单向数据绑定"></script>
     <script src="js/lib/rememberInputVal.js" yl="local_data" id="rememberInputVal" message="input记住密码等"></script>
     <script src="js/lib/btn_send_sms_interval_time.js" id="btn_send_sms_interval_time" message="按钮发送短信后倒计时功能"></script>
     <!--<script src="js/lib/Dom3D.js"></script>-->
@@ -42,7 +41,7 @@
     <script src="js/lib/point3_get_angle.js" id="point3_get_angle" message="通过三角形的三个定点坐标计算夹角"></script>
     <script src="js/lib/MD5.js" message="md5函数" id="md5"></script>
     <script src="js/lib/pingying.js" id="pingying" message="拼音库"></script>
-
+    <script src="js/lib/createList-compiled.js" id="createList" message="数据绑定函数"></script>
 
 
     <!--事件类-->
@@ -117,11 +116,40 @@
         label{
             display: inline-block;  padding: 10px 20px;
         }
+        div{
+            display: block;
+        }
     </style>
 
 </head>
 <body>
-<!--<div id="test3d" style="width: 400px; height: 300px; background: #ccc; overflow: hidden;"></div>-->
+
+<!--<script>-->
+    <!--abc = {-->
+        <!--a:1,-->
+        <!--b:2,-->
+        <!--c:3,-->
+        <!--d:4,-->
+        <!--e:5,-->
+        <!--f:6,-->
+        <!--g:{-->
+            <!--a:22-->
+        <!--}-->
+    <!--};-->
+    <!--var aa = function(val){-->
+        <!--return 123;-->
+    <!--}-->
+<!--</script>-->
+    <!--<div id="test123" style="display: none;">-->
+        <!--<div>{$a*100}</div>-->
+        <!--<div>{$b+$g.a*3-3}</div>-->
+        <!--<div>{$c*1}</div>-->
+        <!--<div>{$d-2}</div>-->
+        <!--<div>{parseInt($e/3)}</div>-->
+        <!--<div>{aa($f%3)}</div>-->
+    <!--</div>-->
+
+
 
 
 </body>
