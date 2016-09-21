@@ -35,6 +35,12 @@
 //$(document).ready(function(){
 //    DEVICE.asyncRunner.run([
 //        {
+//            async:a.b             //可以简写
+//        },
+//        {
+//            fn:a.a
+//        },
+//        {
 //            fn:a.a,           //需要执行的函数名
 //            async:false        //是否异步执行。 true：不会等待上一个同步函数的结束就开始执行。
 //        },
@@ -82,8 +88,7 @@
 
             var runFn = function(){
                 let obj = cache.shift(),
-                    fn = obj.fn;
-
+                    fn = obj.fn || obj.async;
                 start++;
                 fn();
             };
