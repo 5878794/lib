@@ -104,7 +104,9 @@
             for(var i=0,l=obj.length;i<l;i++){
                 cache.push(obj[i]);
             }
-            this.go();
+            if(start == end){
+                this.go();
+            }
         },
         saveData:function(key,val){
             data[key] = val;
