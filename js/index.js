@@ -44,7 +44,9 @@ $(document).ready(function(){
 	__a__ = a;
 
 
-	$("label").click(function(){
+	$("label").find("input").click(function(e){
+		//e.stopPropagation();
+		//e.preventDefault();
 		download();
 	});
 	$(".__look__").click(function(){
@@ -77,30 +79,30 @@ var getParamFromUrl = function(param){
 
 
 
-var getScriptText = function(id){
-	var src = $("#"+id).attr("src");
-
-	var text = "";
-
-	$.ajax({
-		type:"get",
-		contentType:'application/json;charset="UTF-8"',
-		async:false,
-		cache:false,
-		url:src,   //文件地址
-		dataType:"script",
-		success:function(data){
-			text = data;
-		},
-		error:function(){
-			console.log("加载失败！");
-		}
-	});
-
-
-	return text;
-
-};
+//var getScriptText = function(id){
+//	var src = $("#"+id).attr("src");
+//
+//	var text = "";
+//
+//	$.ajax({
+//		type:"get",
+//		contentType:'application/json;charset="UTF-8"',
+//		async:false,
+//		cache:false,
+//		url:src,   //文件地址
+//		dataType:"script",
+//		success:function(data){
+//			text = data;
+//		},
+//		error:function(){
+//			console.log("加载失败！");
+//		}
+//	});
+//
+//
+//	return text;
+//
+//};
 
 
 var download = function(){
@@ -133,42 +135,117 @@ var download = function(){
 	select_text = "/*\r\n"+select_text+"*/\r\n";
 
 
-	var texts = [];
-	var lib = getScriptText("device"),
-		jq_plus = getScriptText("jq_plus");
-	texts.push(select_text);
-	texts.push(lib);
-	texts.push(jq_plus);
-
+	var jsFiles = [];
+	jsFiles.push("device");
+	jsFiles.push("jq_plus");
 	for(var i= 0,l=select.length;i<l;i++){
-		var text = getScriptText(select[i]);
-		texts.push(text);
-	}
-
-	texts = texts.join("");
-
-
-	//去注释 换行
-	if(getParamFromUrl("zip")){
-		var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
-		texts = texts.replace(reg, function(word) { // 去除注释后的文本
-			return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;
-		});
-		texts = texts.replace(/\n|\r|\t/g,"");
+		jsFiles.push(select[i]);
 	}
 
 
-	var blob = new Blob([texts]);
-	var src= window.URL.createObjectURL(blob);
+	getFilesText(jsFiles,function(texts){
+		texts = select_text + texts;
+		//去注释 换行
+		if(getParamFromUrl("zip")){
+			var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
+			texts = texts.replace(reg, function(word) { // 去除注释后的文本
+				return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;
+			});
+			texts = texts.replace(/\n|\r|\t/g,"");
+		}
 
-	__a__.attr({href:src});
-	__a__.get(0).download = "lib.js";
+
+		var blob = new Blob([texts]);
+		var src= window.URL.createObjectURL(blob);
+
+		__a__.attr({href:src});
+		__a__.get(0).download = "lib.js";
+	});
+
+
+	//var texts = [];
+	//var lib = getScriptText("device"),
+	//	jq_plus = getScriptText("jq_plus");
+	//texts.push(select_text);
+	//texts.push(lib);
+	//texts.push(jq_plus);
+    //
+	//for(var i= 0,l=select.length;i<l;i++){
+	//	var text = getScriptText(select[i]);
+	//	texts.push(text);
+	//}
+    //
+	//texts = texts.join("");
+
+
+
 };
 
 
+var getFilesText = function(files,callback){
+	var texts = [];
+
+console.log(files)
+	var runer = function(){
+		if(files.length==0){
+			callback(texts.join(""));
+		}else{
+			var _id = files.shift();
+			ajax(_id);
+		}
+	};
+
+
+
+
+
+	var ajax = function(id){
+		var src = "http://"+window.location.host + "/"+$("#"+id).attr("src");
+console.log(src);
+		//var text = "";
+
+		XMLHttpRequest.prototype.onsend = function(data) {
+			//if(isValidUrl(this.url)) {
+				this.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+				//this.setRequestHeader(token_name, token_value);
+			//}
+		};
+
+
+		$.ajax({
+			type:"get",
+			contentType:'application/json;charset="UTF-8"',
+			cache:false,
+			url:src,   //文件地址
+			//dataType:"script",
+			success:function(data){
+				//text = data;
+				texts.push(data);
+				runer();
+			},
+			error:function(){
+				//alert(id+" 加载失败");
+				console.log("加载失败！"+id);
+				runer();
+			}
+		});
+
+
+	};
+
+
+	runer();
+	//return text;
+};
+
+
+
 var showFileInfo = function(id){
-	var text = getScriptText(id);
-	var blob = new Blob([text]);
-	var src= window.URL.createObjectURL(blob);
-	window.open(src);
+
+	getFilesText([id],function(text){
+		//var text = getScriptText(id);
+		var blob = new Blob([text]);
+		var src= window.URL.createObjectURL(blob);
+		window.open(src);
+	});
 };

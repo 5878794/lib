@@ -14,24 +14,24 @@
 //注意：对象下不要  key  和 ___key___  同时存在
 
 
-Object.prototype.keyChange = function(key,callback){
-    var  _key = "___"+key+"___";
-
-    this[_key] = this[key];
-
-    Object.defineProperty(this,key,{
-        configurable:true,
-        get:function(){
-            return this[_key];
-        },
-        set:function(value){
-            if(this[_key] != value){
-                this[_key] = value;
-                callback();
-            }
-        }
-    })
-};
+//Object.prototype.keyChange = function(key,callback){
+//    var  _key = "___"+key+"___";
+//
+//    this[_key] = this[key];
+//
+//    Object.defineProperty(this,key,{
+//        configurable:true,
+//        get:function(){
+//            return this[_key];
+//        },
+//        set:function(value){
+//            if(this[_key] != value){
+//                this[_key] = value;
+//                callback();
+//            }
+//        }
+//    })
+//};
 
 
 

@@ -1,4 +1,3 @@
-"use strict";
 
 //对象参数变更监听，对象（dom和json）/数组
 
@@ -11,23 +10,24 @@
 
 //注意：对象下不要  key  和 ___key___  同时存在
 
-Object.prototype.keyChange = function (key, callback) {
-    var _key = "___" + key + "___";
-
-    this[_key] = this[key];
-
-    Object.defineProperty(this, key, {
-        configurable: true,
-        get: function get() {
-            return this[_key];
-        },
-        set: function set(value) {
-            if (this[_key] != value) {
-                this[_key] = value;
-                callback();
-            }
-        }
-    });
-};
+//Object.prototype.keyChange = function(key,callback){
+//    var  _key = "___"+key+"___";
+//
+//    this[_key] = this[key];
+//
+//    Object.defineProperty(this,key,{
+//        configurable:true,
+//        get:function(){
+//            return this[_key];
+//        },
+//        set:function(value){
+//            if(this[_key] != value){
+//                this[_key] = value;
+//                callback();
+//            }
+//        }
+//    })
+//};
+"use strict";
 
 //# sourceMappingURL=json_property_listener-compiled.js.map
