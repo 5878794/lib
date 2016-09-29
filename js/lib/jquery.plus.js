@@ -52,6 +52,10 @@ $.isUrl = function(url){
 	var re=new RegExp(strRegex);
 	return re.test(url);
 };
+$.isJson = function(obj){
+	return (typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length)
+};
+
 
 
 $.getDom = function(obj){
