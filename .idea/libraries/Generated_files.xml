@@ -3,17 +3,37 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/js/lib/select_infinite_cascade-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/json_property_listener-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/stepAnimate-compiled.js" />
         <item url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
         <item url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/asyncRunner-compiled.js" />
         <item url="file://$PROJECT_DIR$/test/table-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/createList-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/check_from-compiled.js" />
+        <item url="file://$PROJECT_DIR$/js/lib/multi_touch_event-compiled.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/js/lib/test-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/asyncRuner-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/asyncRuner-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/multi_touch_event.es6-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/multi_touch_event.es6-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/bindData-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/aa-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/aa-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/aa-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/select_infinite_cascade-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/json_property_listener-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/divScrollBar-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/stepAnimate-compiled.js" />
       <root url="file://$PROJECT_DIR$/js/lib/gravitySensor-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/createList-compiled.js" />
       <root url="file://$PROJECT_DIR$/test/table-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/asyncRunner-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/multi_touch_event-compiled.js" />
+      <root url="file://$PROJECT_DIR$/js/lib/check_from-compiled.js" />
     </CLASSES>
     <SOURCES />
   </library>
