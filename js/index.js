@@ -185,7 +185,6 @@ var download = function(){
 var getFilesText = function(files,callback){
 	var texts = [];
 
-console.log(files)
 	var runer = function(){
 		if(files.length==0){
 			callback(texts.join(""));
@@ -201,7 +200,6 @@ console.log(files)
 
 	var ajax = function(id){
 		var src = "http://"+window.location.host + "/"+$("#"+id).attr("src");
-console.log(src);
 		//var text = "";
 
 		XMLHttpRequest.prototype.onsend = function(data) {
