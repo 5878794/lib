@@ -247,7 +247,7 @@ var DEVICE = {};
 				clearTimeout;
 		})(),
 		checkDomHasPosition = function(dom){
-			var position = dom.css("positon");
+			var position = dom.css("position");
 			return (
 				position == "fixed" ||
 				position == "absolute" ||
