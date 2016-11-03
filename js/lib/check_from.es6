@@ -14,6 +14,7 @@
 //phone     手机号
 //idCard    身份证
 //chinese   中文
+//nickname  中文、英文、数字、下划线
 
 
 //验证时执行
@@ -87,7 +88,7 @@
             return reg.test(str);
         },
         //身份证
-        idCard: function idCard(cid) {
+        idCard: function(cid) {
             if (cid.length == 0) {
                 return true;
             }
@@ -117,6 +118,15 @@
             if(str.length == 0){return true;}
 
             let reg = /^[\u4E00-\u9FA5]+$/;
+            return reg.test(str);
+        },
+        //昵称
+        nickname: function(str) {
+            if (str.length == 0) {
+                return true;
+            }
+
+            var reg = /^[\u4e00-\u9fa5a-zA-Z0-9_]+$/;
             return reg.test(str);
         }
     };
