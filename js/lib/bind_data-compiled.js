@@ -8,6 +8,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //TODO 模板初始显示的{{}}隐藏问题
 //
 
+//数据绑定函数
+//可以绑定数据列表,每次修改data对象中的lists数组在传入即可
+
+//关于列表
+//传入的数组长度小于上一次的会重新生成列表
+//列表长度不变，修改其中内容不会更新
+//大于之前的列表长度会自动添加
+
+//html部分
+//<div class="aa" data-dd="123" id="{{$a}}" tt="{{$b}}">123
+//    <span id="{{$cc}}">{{$a}}</span>
+//<div id="{{$aa}}">3,{{$aa+33}}</div>
+//<div data-repeat="for item in lists">
+//    <p>{{$item.cc}}</p>
+//</div>
+//</div>
+
+//js部分
+//var data = {
+//    a:1,
+//    b:2,
+//    cc:3,
+//    aa:11,
+//    lists:[
+//        {cc:1},
+//        {cc:2},
+//        {cc:3},
+//        {cc:4}
+//    ]
+//};
+//
+
+//初始执行
+//var c = new DEVICE.bindData($(".aa"),data);
+
+//更新数据执行(2次传入的数据格式要一样)
+//c.bindData(data);
+
 DEVICE.bindData = function () {
     function bindData(dom, data) {
         _classCallCheck(this, bindData);
@@ -231,15 +269,18 @@ DEVICE.bindData = function () {
                         var _data = items[i],
                             _body = _data.dom,
                             _key = _data.setKey,
-                            _html = _data.list;
+                            _html = _data.list,
+                            z = 0;
 
                         //数据源不同，但条数一样清空dom下的列表，否则按加载下一页
-                        if (old_number == now_number) {
+                        if (old_number >= now_number) {
                             $(_body).html("");
+                        } else {
+                            z = old_number;
                         }
 
                         //生成列表数据
-                        for (var z = 0, zl = data_length; z < zl; z++) {
+                        for (z, data_length; z < data_length; z++) {
                             var __data = {};
                             __data[_key] = data_source[z];
 
