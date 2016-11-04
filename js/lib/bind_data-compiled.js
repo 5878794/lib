@@ -4,8 +4,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//TODO 只写了模板赋值单向绑定 双向绑定需要检查this.data对象的key  数据循环未处理
-//
+//TODO 只写了模板赋值单向绑定 双向绑定需要检查this.data对象的key
+//TODO 模板初始显示的{{}}隐藏问题
 //
 
 DEVICE.bindData = function () {
@@ -16,6 +16,7 @@ DEVICE.bindData = function () {
         this.data = data;
 
         this.mark = {};
+        this.repeatMark = {};
 
         this._init();
     }
@@ -24,9 +25,17 @@ DEVICE.bindData = function () {
         key: "_init",
         value: function _init() {
             this._getMark(this.dom.get(0));
-            this._setVal(this.data);
+            this.bindData(this.data);
+        }
+    }, {
+        key: "bindData",
+        value: function bindData(data) {
+            data = JSON.parse(JSON.stringify(data));
+            this._setVal(data);
+            this._setListVal(data);
 
             console.log(this.mark);
+            console.log(this.repeatMark);
         }
 
         //解析模板
@@ -34,7 +43,6 @@ DEVICE.bindData = function () {
     }, {
         key: "_getMark",
         value: function _getMark(dom) {
-
             //处理元素的attr
             var attr = dom.attributes || [];
             for (var i = 0, l = attr.length; i < l; i++) {
@@ -45,6 +53,12 @@ DEVICE.bindData = function () {
                 if (attr_mark.length != 0) {
                     this._saveMark(attr_mark, attr_name, attr_value, dom, "attr");
                 }
+            }
+
+            //判断是否是循环模块
+            if (dom.dataset && dom.dataset.repeat) {
+                this._saveRepeatList(dom);
+                return;
             }
 
             //处理元素的text
@@ -149,6 +163,92 @@ DEVICE.bindData = function () {
             });
 
             return str;
+        }
+
+        //处理循环部分并缓存
+
+    }, {
+        key: "_saveRepeatList",
+        value: function _saveRepeatList(dom) {
+            //获取设置的对象和key
+            var text = dom.dataset.repeat;
+            text = text.split(" ");
+
+            var data_key = text[3],
+                set_key = text[1];
+
+            if (!data_key || !set_key) {
+                return;
+            }
+
+            //存储
+
+            if (!this.repeatMark[data_key]) {
+                this.repeatMark[data_key] = {
+                    items: [], //使用该数据源的dom数据列表
+                    listNumber: 0, //现有列表数
+                    data: [] //现绑定的数据
+                };
+            }
+
+            this.repeatMark[data_key].items.push({
+                dom: dom, //包裹层dom
+                list: dom.innerHTML, //要循环的html
+                setKey: set_key //html中设置的对象名
+            });
+
+            //清空html的模板数据
+            $(dom).html("");
+        }
+
+        //循环列表类绑定
+
+    }, {
+        key: "_setListVal",
+        value: function _setListVal(data) {
+            for (var key in this.repeatMark) {
+                //找到绑定数据的key
+                if (this.repeatMark.hasOwnProperty(key)) {
+                    var data_source = data[key] || [],
+                        data_length = data_source.length,
+                        this_item = this.repeatMark[key],
+                        items = this_item.items || [],
+                        old_number = this_item.listNumber,
+                        now_number = data_length,
+                        old_data = JSON.stringify(this_item.data),
+                        now_data = JSON.stringify(data_source);
+
+                    //数据相同不处理
+                    if (old_data == now_data) {
+                        continue;
+                    }
+
+                    this.repeatMark[key].listNumber = now_number;
+                    this.repeatMark[key].data = data_source;
+
+                    //找到绑定该key的所有缓存dom
+                    for (var i = 0, l = items.length; i < l; i++) {
+                        var _data = items[i],
+                            _body = _data.dom,
+                            _key = _data.setKey,
+                            _html = _data.list;
+
+                        //数据源不同，但条数一样清空dom下的列表，否则按加载下一页
+                        if (old_number == now_number) {
+                            $(_body).html("");
+                        }
+
+                        //生成列表数据
+                        for (var z = 0, zl = data_length; z < zl; z++) {
+                            var __data = {};
+                            __data[_key] = data_source[z];
+
+                            var this_html = this._getNewStr(_html, __data);
+                            $(_body).append(this_html);
+                        }
+                    }
+                }
+            }
         }
     }]);
 
