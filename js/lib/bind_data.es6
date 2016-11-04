@@ -3,6 +3,7 @@
 
 //TODO 只写了模板赋值单向绑定 双向绑定需要检查this.data对象的key  数据循环未处理
 //
+//
 
 
 DEVICE.bindData = class bindData{
@@ -24,7 +25,9 @@ DEVICE.bindData = class bindData{
 
     //解析模板
     _getMark(dom){
-        //if(dom.length == 0){return;}
+
+
+
 
         //处理元素的attr
         let attr = dom.attributes || [];
@@ -51,7 +54,9 @@ DEVICE.bindData = class bindData{
         //处理子元素
         let children = dom.childNodes;
         for(var z=0,zl=children.length;z<zl;z++){
-            this._getMark(children[z])
+            if(children[z].nodeType == 1 || children[z].nodeType == 3 ){
+                this._getMark(children[z])
+            }
         }
     }
 
@@ -60,7 +65,7 @@ DEVICE.bindData = class bindData{
         if(value === null){return []}
 
         if(value.indexOf("{{")>-1 && value.indexOf("}}")>-1){
-            return value.match(/\$\w+/ig);
+            return value.match(/\$\w+/ig) || [];
         }else{
             return [];
         }
