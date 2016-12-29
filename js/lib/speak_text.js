@@ -8,6 +8,7 @@ DEVICE.speak = function(text,lang,name){
 
 	var synth = window.speechSynthesis,
 		voices = synth.getVoices();
+	synth.cancel();
 	lang = lang || "zh-cn";
 	name = name || "google";
 
