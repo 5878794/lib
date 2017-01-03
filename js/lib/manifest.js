@@ -35,6 +35,9 @@ DEVICE.mainfest = function(){
 			window.location.reload();
 		}
 	}, false);
+	window.applicationCache.addEventListener('cached', function(e) {
+		body.remove();
+	}, false);
 	window.applicationCache.addEventListener('obsolete', function(e) {
 		body.remove();
 	}, false);
