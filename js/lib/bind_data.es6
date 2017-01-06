@@ -71,8 +71,8 @@ DEVICE.bindData = class bindData{
         this._setVal(data);
         this._setListVal(data);
 
-        console.log(this.mark)
-        console.log(this.repeatMark)
+        // console.log(this.mark)
+        // console.log(this.repeatMark)
     }
 
 

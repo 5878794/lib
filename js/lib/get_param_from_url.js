@@ -14,7 +14,7 @@
 
 //获取地址栏参数
 DEVICE.getParamFromUrl = function(param){
-	var find_val = "";
+	var data = {};
 
 	var search = window.location.search;
 	search = search.substr(1);
@@ -25,11 +25,9 @@ DEVICE.getParamFromUrl = function(param){
 			this_keys = this_val.split("="),
 			this_key = this_keys[0];
 
-		if(this_key == param){
-			find_val = this_keys[1];
-			break;
-		}
+		data[this_key] = decodeURI(this_keys[1]);
 	}
-	return decodeURI(find_val);
+
+	return data;
 
 };
