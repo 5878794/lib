@@ -13,6 +13,7 @@
 // );
 
 DEVICE.arrayFunction = function(array,fn,callback){
+	array = JSON.parse(JSON.stringify(array));
 	var run = function(){
 		if(array.length == 0){
 			callback();
