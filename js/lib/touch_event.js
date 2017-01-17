@@ -364,10 +364,18 @@
 
 				var _eventid = obj.__bens_eventid__;
 
+
 				if(_this.savefn[_eventid]){
 					isfind = true;
 					if(_this.savefn[_eventid][type]){
 						_this.savefn[_eventid][type].call(obj,e);
+					}else{
+						if(type == "myclickdown"){
+							$(obj).css({opacity:0.5});
+						}
+						if(type == "myclickup"){
+							$(obj).css({opacity:1});
+						}
 					}
 				}
 
